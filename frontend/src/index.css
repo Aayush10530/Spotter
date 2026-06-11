@@ -1,16 +1,35 @@
-body {
-  margin: 0;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+
+
+
+
+@layer base {
+  body {
+    @apply font-body-md bg-background text-on-background;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer utilities {
+  .hairline-b { border-bottom: 0.5px solid theme('colors.outline-variant'); }
+  .hairline-t { border-top: 0.5px solid theme('colors.outline-variant'); }
+  .hairline-l { border-left: 0.5px solid theme('colors.outline-variant'); }
+  .hairline-r { border-right: 0.5px solid theme('colors.outline-variant'); }
+  .hairline-all { border: 0.5px solid theme('colors.outline-variant'); }
+  
+  .eld-grid-v { border-right: 1px solid theme('colors.outline-variant'); }
+  .eld-grid-v-sub { border-right: 0.5px solid theme('colors.outline-variant'); }
 }
 
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+::-webkit-scrollbar-thumb { background: theme('colors.outline-variant'); border-radius: 3px; }
 
 /* Leaflet map styles */
 .leaflet-container {
   width: 100%;
   height: 100%;
+  border-radius: theme('borderRadius.DEFAULT');
   z-index: 1;
 }
