@@ -53,6 +53,9 @@ function Dashboard() {
                       </td>
                     </tr>
                   ))}
+                  {data && data.recent_trips?.length === 0 && (
+                    <tr><td colSpan="5" className="px-6 py-8 text-center text-gray-400">No recent trips found.</td></tr>
+                  )}
                   {!data && <tr><td colSpan="5" className="px-6 py-8 text-center text-gray-400">Loading trips...</td></tr>}
                 </tbody>
               </table>

@@ -1,9 +1,12 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
 function Sidebar() {
   const location = useLocation();
   const currentPath = location.pathname;
+  const { user } = useAuth();
+  const isDispatcher = user?.role === 'DISPATCHER';
 
   return (
     <aside className="w-[320px] h-full flex-shrink-0 bg-surface dark:bg-[#121212] border-r border-outline-variant dark:border-gray-800 flex flex-col">
@@ -12,11 +15,11 @@ function Sidebar() {
       <div className="p-6 border-b border-outline-variant dark:border-gray-800">
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 rounded-lg bg-primary text-white flex items-center justify-center flex-shrink-0">
-            <span className="material-symbols-outlined text-[24px]">local_shipping</span>
+            <span className="material-symbols-outlined text-[24px]">{isDispatcher ? 'business' : 'local_shipping'}</span>
           </div>
           <div>
-            <h2 className="text-[16px] font-semibold text-on-surface dark:text-white">Unit 4022</h2>
-            <p className="text-[12px] font-medium text-emerald-600 dark:text-emerald-400">FMCSA Compliant</p>
+            <h2 className="text-[16px] font-semibold text-on-surface dark:text-white">{isDispatcher ? 'Dispatch HQ' : 'Unit 4022'}</h2>
+            <p className="text-[12px] font-medium text-emerald-600 dark:text-emerald-400">{isDispatcher ? 'All Systems Go' : 'FMCSA Compliant'}</p>
           </div>
         </div>
       </div>

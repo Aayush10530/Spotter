@@ -1,23 +1,49 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import ProtectedRoute from './components/ProtectedRoute';
 import MainLayout from './components/layout/MainLayout';
 import TripPlanner from './pages/TripPlanner';
 import FleetDashboard from './pages/FleetDashboard';
 import Dashboard from './pages/Dashboard';
 import CompliancePlaceholder from './pages/CompliancePlaceholder';
 import ReportsPlaceholder from './pages/ReportsPlaceholder';
+import Login from './pages/Login';
 
 function App() {
   return (
-    <MainLayout>
+    <AuthProvider>
       <Routes>
-        <Route path="/" element={<TripPlanner />} />
-        <Route path="/fleet" element={<FleetDashboard />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/compliance" element={<CompliancePlaceholder />} />
-        <Route path="/reports" element={<ReportsPlaceholder />} />
+        <Route path="/login" element={<Login />} />
+        
+        {/* Protected Routes */}
+        <Route path="/" element={
+            <ProtectedRoute>
+                <MainLayout><TripPlanner /></MainLayout>
+            </ProtectedRoute>
+        } />
+        <Route path="/fleet" element={
+            <ProtectedRoute allowedRoles={['DISPATCHER']}>
+                <MainLayout><FleetDashboard /></MainLayout>
+            </ProtectedRoute>
+        } />
+        <Route path="/dashboard" element={
+            <ProtectedRoute allowedRoles={['DISPATCHER']}>
+                <MainLayout><Dashboard /></MainLayout>
+            </ProtectedRoute>
+        } />
+        <Route path="/compliance" element={
+            <ProtectedRoute allowedRoles={['DISPATCHER']}>
+                <MainLayout><CompliancePlaceholder /></MainLayout>
+            </ProtectedRoute>
+        } />
+        <Route path="/reports" element={
+            <ProtectedRoute allowedRoles={['DISPATCHER']}>
+                <MainLayout><ReportsPlaceholder /></MainLayout>
+            </ProtectedRoute>
+        } />
       </Routes>
-    </MainLayout>
+    </AuthProvider>
   );
 }
 
