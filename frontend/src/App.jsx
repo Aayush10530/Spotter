@@ -6,6 +6,8 @@ import LoadingSpinner from './components/LoadingSpinner';
 import RouteMap from './components/RouteMap';
 import TripSummary from './components/TripSummary';
 import ELDLogSheet from './components/ELDLogSheet';
+import HOSCompliance from './components/HOSCompliance';
+import StopTimeline from './components/StopTimeline';
 
 function App() {
   const [tripResult, setTripResult] = useState(null);
@@ -82,9 +84,11 @@ function App() {
                   <div className="lg:col-span-2 h-[400px] bg-surface hairline-all rounded-xl overflow-hidden p-2">
                      <RouteMap route={tripResult.route} />
                   </div>
-                  {/* Summary */}
-                  <div className="lg:col-span-1">
+                  {/* Summary & Timeline */}
+                  <div className="lg:col-span-1 flex flex-col gap-6">
                      <TripSummary summary={tripResult.summary} />
+                     <HOSCompliance summary={tripResult.summary} />
+                     <StopTimeline waypoints={tripResult.route.waypoints} />
                   </div>
                 </div>
 
