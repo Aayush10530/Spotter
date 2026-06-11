@@ -117,4 +117,23 @@ print(f"  [PASS] Total miles: {result['summary']['total_miles']}")
 print("  PHASE 5 PASSED\n")
 
 
+print("\n=== PHASE 6: log_builder.py ===")
+from trip_planner.services.log_builder import LogSheetBuilder
+
+final_output = LogSheetBuilder.build(
+    origin_coords=chicago,
+    pickup_coords=dallas,
+    dropoff_coords=atlanta,
+    deadhead_route=deadhead,
+    loaded_route=loaded,
+    trip_data=result
+)
+
+assert 'summary' in final_output
+assert 'route' in final_output
+assert 'days' in final_output
+assert len(final_output['route']['waypoints']) >= 3
+print(f"  [PASS] Final output generated with {len(final_output['route']['waypoints'])} waypoints")
+print("  PHASE 6 PASSED\n")
+
 print("=== ALL ACTIVE TESTS PASSED ===\n")

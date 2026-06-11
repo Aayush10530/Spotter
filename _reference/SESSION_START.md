@@ -5,16 +5,15 @@
 ---
 PROJECT: SpotterAI ELD Trip Planner
 STACK: Django + React (Create React App)
-CURRENT PHASE: Phase 5
-LAST COMPLETED: routing.py — gets distance, duration, polyline from ORS
-NEXT TASK: hos_calculator.py — applies HOS rules to generate log blocks
-- frontend/src/services/api.js holds all axios calls
-- frontend/src/utils/ holds all helper functions
-- Never mix business logic with UI components
-- Never add dependencies not already in requirements.txt
+CURRENT PHASE: Phase 6
+LAST COMPLETED: hos_calculator.py — applies HOS rules to generate log blocks
+NEXT TASK: log_builder.py — merges route and scheduling data into response schema
 
-FOLDER STRUCTURE STATUS:
-  geocoding.py    → DONE ✓
+ARCHITECTURE RULES — READ BEFORE DOING ANYTHING:
+- backend/trip_planner/services/ holds all logic
+- views.py only handles HTTP, calls services
+- hos_calculator.py is pure math, no strings
+- log_builder.py does all string formatting    → DONE ✓
   routing.py      → NEXT
   everything else → NOT STARTED
 
