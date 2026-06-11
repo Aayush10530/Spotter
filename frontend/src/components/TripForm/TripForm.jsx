@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import './TripForm.css';
 
-const TripForm = ({ onSubmit, isLoading }) => {
+const TripForm = ({ onPlanTrip, isLoading }) => {
   const [formData, setFormData] = useState({
     current_location: '',
     pickup_location: '',
@@ -27,100 +28,104 @@ const TripForm = ({ onSubmit, isLoading }) => {
       cycle_hours_used: parseFloat(formData.current_cycle_used || 0)
     };
     
-    onSubmit(formattedData);
+    onPlanTrip(formattedData);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-5 w-full">
-      
-      <div className="flex flex-col gap-1.5">
-        <label className="text-xs font-semibold text-on-surface dark:text-gray-300 tracking-wide uppercase">Current Location</label>
-        <div className="relative">
-          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant dark:text-gray-400 text-[18px]">gps_fixed</span>
-          <input 
-            required
-            name="current_location"
-            value={formData.current_location}
-            onChange={handleChange}
-            className="w-full h-[40px] border border-outline-variant dark:border-gray-700 rounded pl-10 pr-3 text-sm bg-transparent text-on-surface dark:text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary placeholder:text-outline dark:placeholder:text-gray-500" 
-            placeholder="City, State or ZIP" 
-            type="text" 
-          />
-        </div>
-      </div>
+    <div className="trip-form-container">
+      <header className="trip-form-header">
+        <h1 className="trip-form-title">Plan your trip</h1>
+        <p className="trip-form-subtitle">Enter your trip details to generate a route map and ELD-compliant daily logs.</p>
+      </header>
 
-      <div className="flex flex-col gap-1.5">
-        <label className="text-xs font-semibold text-on-surface dark:text-gray-300 tracking-wide uppercase">Pickup Location</label>
-        <div className="relative">
-          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-green-600 dark:text-green-500 text-[18px]">place</span>
-          <input 
-            required
-            name="pickup_location"
-            value={formData.pickup_location}
-            onChange={handleChange}
-            className="w-full h-[40px] border border-outline-variant dark:border-gray-700 rounded pl-10 pr-3 text-sm bg-transparent text-on-surface dark:text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary placeholder:text-outline dark:placeholder:text-gray-500" 
-            placeholder="City, State or ZIP" 
-            type="text" 
-          />
+      <form onSubmit={handleSubmit} className="trip-form">
+        
+        <div className="form-group">
+          <label className="form-label">Current Location</label>
+          <div className="input-wrapper">
+            <span className="material-symbols-outlined input-icon">my_location</span>
+            <input 
+              required
+              name="current_location"
+              value={formData.current_location}
+              onChange={handleChange}
+              className="form-input" 
+              placeholder="City, State or ZIP" 
+              type="text" 
+            />
+          </div>
         </div>
-      </div>
 
-      <div className="flex flex-col gap-1.5">
-        <label className="text-xs font-semibold text-on-surface dark:text-gray-300 tracking-wide uppercase">Dropoff Location</label>
-        <div className="relative">
-          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-red-600 dark:text-red-500 text-[18px]">flag</span>
-          <input 
-            required
-            name="dropoff_location"
-            value={formData.dropoff_location}
-            onChange={handleChange}
-            className="w-full h-[40px] border border-outline-variant dark:border-gray-700 rounded pl-10 pr-3 text-sm bg-transparent text-on-surface dark:text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary placeholder:text-outline dark:placeholder:text-gray-500" 
-            placeholder="City, State or ZIP" 
-            type="text" 
-          />
+        <div className="form-group">
+          <label className="form-label">Pickup Location</label>
+          <div className="input-wrapper">
+            <span className="material-symbols-outlined input-icon icon-pickup">location_on</span>
+            <input 
+              required
+              name="pickup_location"
+              value={formData.pickup_location}
+              onChange={handleChange}
+              className="form-input" 
+              placeholder="City, State or ZIP" 
+              type="text" 
+            />
+          </div>
         </div>
-      </div>
 
-      <div className="flex flex-col gap-1.5">
-        <label className="text-xs font-semibold text-on-surface dark:text-gray-300 tracking-wide uppercase">Current Cycle Used (hrs)</label>
-        <div className="relative">
-          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant dark:text-gray-400 text-[18px]">schedule</span>
-          <input 
-            required
-            name="current_cycle_used"
-            value={formData.current_cycle_used}
-            onChange={handleChange}
-            className="w-full h-[40px] border border-outline-variant dark:border-gray-700 rounded pl-10 pr-3 text-sm bg-transparent text-on-surface dark:text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary placeholder:text-outline dark:placeholder:text-gray-500" 
-            type="number" 
-            step="0.1"
-            min="0"
-            max="70"
-            placeholder="0.0"
-          />
+        <div className="form-group">
+          <label className="form-label">Dropoff Location</label>
+          <div className="input-wrapper">
+            <span className="material-symbols-outlined input-icon icon-dropoff">flag</span>
+            <input 
+              required
+              name="dropoff_location"
+              value={formData.dropoff_location}
+              onChange={handleChange}
+              className="form-input" 
+              placeholder="City, State or ZIP" 
+              type="text" 
+            />
+          </div>
         </div>
-      </div>
 
-      <div className="pt-2">
+        <div className="form-group">
+          <label className="form-label">Current Cycle Used (hrs)</label>
+          <div className="input-wrapper">
+            <span className="material-symbols-outlined input-icon">schedule</span>
+            <input 
+              required
+              name="current_cycle_used"
+              value={formData.current_cycle_used}
+              onChange={handleChange}
+              className="form-input font-mono" 
+              type="number" 
+              step="0.5"
+              min="0"
+              max="70"
+              placeholder="0.0"
+            />
+          </div>
+        </div>
+
         <button 
           type="submit" 
           disabled={isLoading}
-          className={`w-full h-[40px] rounded bg-[#004782] text-white text-sm font-medium hover:bg-opacity-90 transition-colors flex items-center justify-center gap-2 ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
+          className="submit-button"
         >
           {isLoading ? (
             <>
-              <span className="material-symbols-outlined animate-spin text-[18px]">progress_activity</span>
+              <span className="material-symbols-outlined animate-spin">progress_activity</span>
               CALCULATING...
             </>
           ) : (
             <>
               Plan trip
-              <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+              <span className="material-symbols-outlined">arrow_forward</span>
             </>
           )}
         </button>
-      </div>
-      
-    </form>
+      </form>
+    </div>
   );
 };
 

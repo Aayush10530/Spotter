@@ -1,0 +1,86 @@
+.hos-compliance-container {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-lg);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.hos-compliance-title {
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--color-on-surface);
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 8px;
+}
+
+.hos-compliance-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.hos-status-item {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-lg);
+}
+
+.hos-status-item.compliant {
+  background-color: var(--color-surface-container-lowest);
+}
+
+.hos-status-item.violation {
+  background-color: var(--color-error-container, #ffdad6);
+  border-color: var(--color-error);
+}
+
+.hos-icon {
+  font-size: 24px;
+}
+
+.hos-icon.compliant {
+  color: var(--color-secondary);
+}
+
+.hos-icon.violation {
+  color: var(--color-error);
+}
+
+.hos-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.hos-label {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.hos-label.compliant {
+  color: var(--color-on-surface);
+}
+
+.hos-label.violation {
+  color: var(--color-on-error-container, #93000a);
+}
+
+.hos-value {
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.hos-value.compliant {
+  color: var(--color-on-surface-variant);
+}
+
+.hos-value.violation {
+  color: var(--color-error);
+}

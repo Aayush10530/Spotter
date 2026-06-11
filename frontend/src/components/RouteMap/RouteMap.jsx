@@ -1,10 +1,11 @@
 import React from 'react';
 import { MapContainer, TileLayer, Polyline, CircleMarker, Tooltip } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+import './RouteMap.css';
 
 const RouteMap = ({ route }) => {
   if (!route || !route.polyline || route.polyline.length === 0) {
-    return <div className="w-full h-full flex items-center justify-center bg-surface-container-low text-on-surface-variant font-body-md">No route data available</div>;
+    return <div className="route-map-empty">No route data available</div>;
   }
 
   const positions = route.polyline;
@@ -44,16 +45,7 @@ const RouteMap = ({ route }) => {
     }
   };
 
-  // Find coordinates for each event.
-  // The event has a distance_miles, which we can interpolate along the polyline.
-  // For simplicity, we just approximate or if backend gives exact lat/lng we use them.
-  // Wait, does backend events have lat/lng? Let's check.
-  // If not, we just show start and end for now, or approximate.
-  // Actually, we can just use the first point for PRE_TRIP and last for DROP_OFF if lat/lng are missing.
-
   const waypoints = events.filter(e => e.type !== 'DRIVING').map(e => {
-    // We don't have exact lat/lng in events from HOS calculator, they just have duration/distance.
-    // If backend doesn't provide lat/lng in events, we will fallback to start/end.
     let lat = e.lat;
     let lng = e.lng;
     
@@ -75,7 +67,7 @@ const RouteMap = ({ route }) => {
   }).filter(e => e.lat && e.lng);
 
   return (
-    <div className="w-full h-full relative z-0">
+    <div className="route-map-wrapper">
       <MapContainer center={center} zoom={6} scrollWheelZoom={true} style={{ height: '100%', width: '100%' }}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

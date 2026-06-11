@@ -1,11 +1,12 @@
 import React from 'react';
+import './LoadingSpinner.css';
 
 const LoadingSpinner = () => {
   return (
-    <div className="bg-surface-container-lowest hairline-all p-12 rounded-xl text-center flex flex-col items-center justify-center">
-      <span className="material-symbols-outlined text-[48px] text-primary animate-spin mb-4">progress_activity</span>
-      <h3 className="font-headline-md text-on-surface">Generating ELD Logbook...</h3>
-      <p className="font-body-md text-on-surface-variant mt-2">Calculating hours of service compliance, routing, and fuel stops.</p>
+    <div className="loading-container">
+      <span className="material-symbols-outlined loading-spinner">progress_activity</span>
+      <h3 className="loading-title">Generating ELD Logbook...</h3>
+      <p className="loading-subtitle">Calculating hours of service compliance, routing, and fuel stops.</p>
     </div>
   );
 };

@@ -1,14 +1,9 @@
 import React from 'react';
+import './HOSCompliance.css';
 
 const HOSCompliance = ({ summary }) => {
   if (!summary) return null;
 
-  // Calculate remaining or violation times based on summary data.
-  // The summary object from our API includes:
-  // "violations": ["Exceeded 14-hour window by 2.5 hours", ...]
-  
-  // To keep it simple, we check if there are violations. If so, we show them.
-  // We can show the driving and shift limits as green if compliant, or red if not.
   const drivingViolations = summary.violations?.filter(v => v.includes('11-hour'));
   const shiftViolations = summary.violations?.filter(v => v.includes('14-hour'));
   
@@ -16,31 +11,31 @@ const HOSCompliance = ({ summary }) => {
   const hasShiftViolation = shiftViolations && shiftViolations.length > 0;
 
   return (
-    <div className="bg-surface hairline-all rounded-xl p-6 flex flex-col gap-6">
-      <h2 className="font-headline-md text-headline-md text-on-surface hairline-b pb-2">HOS Compliance Status</h2>
+    <div className="hos-compliance-container">
+      <h2 className="hos-compliance-title">HOS Compliance Status</h2>
       
-      <div className="flex flex-col gap-2">
+      <div className="hos-compliance-list">
         {/* 11-Hour Driving Limit */}
-        <div className={`h-[56px] flex items-center gap-4 px-4 hairline-all rounded-lg ${hasDrivingViolation ? 'bg-error-container border-error' : 'bg-surface-container-lowest'}`}>
-          <span className={`material-symbols-outlined text-[24px] ${hasDrivingViolation ? 'text-error' : 'text-secondary'}`} style={{ fontVariationSettings: "'FILL' 1" }}>
+        <div className={`hos-status-item ${hasDrivingViolation ? 'violation' : 'compliant'}`}>
+          <span className={`material-symbols-outlined hos-icon ${hasDrivingViolation ? 'violation' : 'compliant'}`} style={{ fontVariationSettings: "'FILL' 1" }}>
             {hasDrivingViolation ? 'warning' : 'check_circle'}
           </span>
-          <div className="flex flex-col">
-            <span className={`font-label-md text-label-md ${hasDrivingViolation ? 'text-on-error-container' : 'text-on-surface'}`}>11-Hour Driving Limit</span>
-            <span className={`font-mono-data text-mono-data ${hasDrivingViolation ? 'text-error' : 'text-on-surface-variant'}`}>
+          <div className="hos-details">
+            <span className={`hos-label ${hasDrivingViolation ? 'violation' : 'compliant'}`}>11-Hour Driving Limit</span>
+            <span className={`hos-value ${hasDrivingViolation ? 'violation' : 'compliant'}`}>
               {hasDrivingViolation ? 'Violation Detected' : 'Compliant'}
             </span>
           </div>
         </div>
 
         {/* 14-Hour Shift Limit */}
-        <div className={`h-[56px] flex items-center gap-4 px-4 hairline-all rounded-lg ${hasShiftViolation ? 'bg-error-container border-error' : 'bg-surface-container-lowest'}`}>
-          <span className={`material-symbols-outlined text-[24px] ${hasShiftViolation ? 'text-error' : 'text-secondary'}`} style={{ fontVariationSettings: "'FILL' 1" }}>
+        <div className={`hos-status-item ${hasShiftViolation ? 'violation' : 'compliant'}`}>
+          <span className={`material-symbols-outlined hos-icon ${hasShiftViolation ? 'violation' : 'compliant'}`} style={{ fontVariationSettings: "'FILL' 1" }}>
             {hasShiftViolation ? 'warning' : 'check_circle'}
           </span>
-          <div className="flex flex-col">
-            <span className={`font-label-md text-label-md ${hasShiftViolation ? 'text-on-error-container' : 'text-on-surface'}`}>14-Hour Shift Limit</span>
-            <span className={`font-mono-data text-mono-data ${hasShiftViolation ? 'text-error' : 'text-on-surface-variant'}`}>
+          <div className="hos-details">
+            <span className={`hos-label ${hasShiftViolation ? 'violation' : 'compliant'}`}>14-Hour Shift Limit</span>
+            <span className={`hos-value ${hasShiftViolation ? 'violation' : 'compliant'}`}>
               {hasShiftViolation ? 'Violation Detected' : 'Compliant'}
             </span>
           </div>

@@ -3,6 +3,7 @@ import { drawGrid } from '../../utils/canvas/drawGrid';
 import { drawBlocks } from '../../utils/canvas/drawBlocks';
 import { drawRemarks } from '../../utils/canvas/drawRemarks';
 import { drawTotals } from '../../utils/canvas/drawTotals';
+import './ELDLogSheet.css';
 
 const ELDLogSheet = ({ dayData }) => {
   const canvasRef = useRef(null);
@@ -54,20 +55,20 @@ const ELDLogSheet = ({ dayData }) => {
   if (!dayData) return null;
 
   return (
-    <div className="bg-surface-container-lowest hairline-all rounded-xl p-6 overflow-x-auto">
-      <div className="flex justify-between items-end mb-4 min-w-[800px]">
-        <div>
-          <h3 className="font-headline-md text-on-surface">Day {dayData.day_number}</h3>
-          <p className="font-body-md text-on-surface-variant">Logbook Grid (24-Hour)</p>
+    <div className="eld-logsheet-container">
+      <div className="eld-header">
+        <div className="eld-header-left">
+          <h3 className="eld-title">Day {dayData.day_number}</h3>
+          <p className="eld-subtitle">Logbook Grid (24-Hour)</p>
         </div>
-        <div className="text-right">
-          <p className="font-mono-data text-on-surface-variant">Vehicle: SpotterAI Demo</p>
-          <p className="font-mono-data text-on-surface-variant">Timezone: Origin Local</p>
+        <div className="eld-header-right">
+          <p className="eld-meta">Vehicle: SpotterAI Demo</p>
+          <p className="eld-meta">Timezone: Origin Local</p>
         </div>
       </div>
       
-      <div className="min-w-[800px] flex justify-center">
-        <canvas ref={canvasRef} className="block" />
+      <div className="eld-canvas-wrapper">
+        <canvas ref={canvasRef} className="eld-canvas" />
       </div>
     </div>
   );

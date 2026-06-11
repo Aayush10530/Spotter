@@ -1,0 +1,34 @@
+.loading-container {
+  background-color: var(--color-surface-container-lowest);
+  border: 1px solid var(--color-border);
+  padding: 48px;
+  border-radius: var(--border-radius-lg);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 400px;
+}
+
+.loading-spinner {
+  font-size: 48px;
+  color: var(--color-primary);
+  margin-bottom: 16px;
+  /* Use the global .animate-spin from App.css or define here */
+  animation: spin 1s linear infinite;
+}
+
+.loading-title {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--color-on-surface);
+  margin-bottom: 8px;
+}
+
+.loading-subtitle {
+  font-size: 14px;
+  color: var(--color-on-surface-variant);
+  line-height: 1.4;
+}
