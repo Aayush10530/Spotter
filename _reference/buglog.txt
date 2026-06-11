@@ -1,0 +1,72 @@
+---
+
+## Bug Log
+
+### Format
+BUG-ID | File | Symptom | Cause | Fix | Status | Commit
+
+---
+
+### BUG-001 — Pre-documented: Midnight crossing
+File:     hos_calculator.py
+Symptom:  Day totals exceed 24 hours
+Cause:    Sleeper berth block not split at midnight
+          when rest period goes past 24:00
+Fix:      Use split_block_at_midnight() helper
+          before appending any block to a day
+Status:   PRE-DOCUMENTED — watch for this
+Date:     [today's date]
+
+### BUG-002 — Pre-documented: ORS coordinate order
+File:     geocoding.py / routing.py
+Symptom:  Map markers appear in ocean or wrong location
+Cause:    OpenRouteService returns [lng, lat]
+          Leaflet expects [lat, lng]
+Fix:      Always swap when building polyline:
+          ors_point = [lng, lat]
+          leaflet_point = [ors_point[1], ors_point[0]]
+Status:   PRE-DOCUMENTED — watch for this
+Date:     [today's date]
+
+### BUG-003 — Pre-documented: CORS blocking
+File:     core/settings.py
+Symptom:  Network error in browser console
+          "Access-Control-Allow-Origin" missing
+Cause:    React URL not in CORS_ALLOWED_ORIGINS
+Fix:      Add exact React URL to settings.py:
+          CORS_ALLOWED_ORIGINS = [
+            'http://localhost:3000',
+            'https://your-app.vercel.app'
+          ]
+Status:   PRE-DOCUMENTED — watch for this
+Date:     [today's date]
+
+### BUG-004 — Pre-documented: Leaflet broken markers
+File:     RouteMap.jsx
+Symptom:  Map markers show broken image icon
+Cause:    Leaflet icon paths break in React build
+Fix:      Add at top of RouteMap.jsx:
+          import L from 'leaflet'
+          delete L.Icon.Default.prototype._getIconUrl
+          L.Icon.Default.mergeOptions({
+            iconRetinaUrl: require(
+              'leaflet/dist/images/marker-icon-2x.png'),
+            iconUrl: require(
+              'leaflet/dist/images/marker-icon.png'),
+            shadowUrl: require(
+              'leaflet/dist/images/marker-shadow.png'),
+          })
+Status:   PRE-DOCUMENTED — watch for this
+Date:     [today's date]
+
+### BUG-005 — Pre-documented: Blurry canvas on retina
+File:     logGridDrawer.js
+Symptom:  Log grid looks fuzzy on MacBook/4K screen
+Cause:    Canvas not scaled for devicePixelRatio
+Fix:      Apply DPR scaling at start of drawLogGrid:
+          const dpr = window.devicePixelRatio || 1
+          canvas.width = width * dpr
+          canvas.height = height * dpr
+          ctx.scale(dpr, dpr)
+Status:   PRE-DOCUMENTED — watch for this
+Date:     [today's date]
