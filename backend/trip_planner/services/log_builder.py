@@ -1,38 +1,103 @@
 class LogSheetBuilder:
     @staticmethod
-    def build(origin_coords: dict, pickup_coords: dict, dropoff_coords: dict, deadhead_route: dict, loaded_route: dict, trip_data: dict) -> dict:
-        """
-        Merges route and scheduling data into the final API response schema.
-        """
-        # Combine the polylines
+    def build(
+        origin_coords: dict,
+        pickup_coords: dict,
+        dropoff_coords: dict,
+        deadhead_route: dict,
+        loaded_route: dict,
+        trip_data: dict
+    ) -> dict:
+
+        # Combine polylines
         polyline = deadhead_route['polyline'] + loaded_route['polyline']
-        
-        # Build base waypoints
+
         waypoints = []
-        
-        # Helper to find when an activity occurred in trip_data
-        def find_activity(activity_name):
+
+        # Helper: find first remark matching activity name
+        def find_remark(activity_name):
             for day in trip_data['days']:
                 for remark in day['remarks']:
                     if remark['activity'] == activity_name:
                         return remark['time_label'], day['day_number']
-            return "", 0
-            
-        start_time, start_day = find_activity("Pre-trip inspection")
-        pickup_time, pickup_day = find_activity("Pickup / load")
-        dropoff_time, dropoff_day = find_activity("Dropoff / unload")
-        
+            return "6:00 AM", 1
+
+        # Helper: get approximate lat/lng for a stop
+        # We interpolate along the polyline by distance fraction
+        def interpolate_coords(polyline, fraction):
+            if not polyline or len(polyline) < 2:
+                return polyline[0] if polyline else [0, 0]
+            idx = int(fraction * (len(polyline) - 1))
+            idx = max(0, min(idx, len(polyline) - 1))
+            return polyline[idx]
+
+        # --- Start waypoint ---
+        start_time, start_day = find_remark("Pre-trip inspection")
         waypoints.append({
             'type': 'start',
             'name': origin_coords['name'],
             'lat': origin_coords['lat'],
             'lng': origin_coords['lng'],
-            'time_label': start_time or '6:00 AM',
+            'time_label': start_time,
             'activity': 'Pre-trip inspection',
             'duration': '1 hr',
-            'day': start_day or 1
+            'day': start_day
         })
-        
+
+        # --- Fuel stop and rest stop waypoints from remarks ---
+        total_miles = trip_data['summary']['total_miles'] or 1
+        miles_accumulated = 0.0
+
+        for day in trip_data['days']:
+            for remark in day['remarks']:
+                activity = remark['activity']
+
+                if activity == 'Fueling stop':
+                    fraction = min(miles_accumulated / total_miles, 1.0)
+                    coords = interpolate_coords(polyline, fraction)
+                    waypoints.append({
+                        'type': 'fuel',
+                        'name': remark['location'],
+                        'lat': coords[0],
+                        'lng': coords[1],
+                        'time_label': remark['time_label'],
+                        'activity': 'Fueling stop',
+                        'duration': '30 min',
+                        'day': day['day_number']
+                    })
+
+                elif activity == '10-hr sleeper berth rest':
+                    fraction = min(miles_accumulated / total_miles, 1.0)
+                    coords = interpolate_coords(polyline, fraction)
+                    waypoints.append({
+                        'type': 'rest',
+                        'name': remark['location'],
+                        'lat': coords[0],
+                        'lng': coords[1],
+                        'time_label': remark['time_label'],
+                        'activity': '10-hr rest',
+                        'duration': '10 hrs',
+                        'day': day['day_number']
+                    })
+
+                elif activity == 'Mandatory 30-min break':
+                    fraction = min(miles_accumulated / total_miles, 1.0)
+                    coords = interpolate_coords(polyline, fraction)
+                    waypoints.append({
+                        'type': 'break',
+                        'name': remark['location'],
+                        'lat': coords[0],
+                        'lng': coords[1],
+                        'time_label': remark['time_label'],
+                        'activity': '30-min break',
+                        'duration': '30 min',
+                        'day': day['day_number']
+                    })
+
+            miles_accumulated += day['total_miles']
+
+        # --- Pickup waypoint ---
+        pickup_time, pickup_day = find_remark("Pickup / load")
         waypoints.append({
             'type': 'pickup',
             'name': pickup_coords['name'],
@@ -43,7 +108,9 @@ class LogSheetBuilder:
             'duration': '1 hr',
             'day': pickup_day
         })
-        
+
+        # --- Dropoff waypoint ---
+        dropoff_time, dropoff_day = find_remark("Dropoff / unload")
         waypoints.append({
             'type': 'dropoff',
             'name': dropoff_coords['name'],
@@ -54,11 +121,10 @@ class LogSheetBuilder:
             'duration': '1 hr',
             'day': dropoff_day
         })
-        
-        # In a more advanced version, we would interpolate the polyline to find lat/lng
-        # for fuel stops and rest stops based on distance driven.
-        # For now, we return the primary route waypoints.
-        
+
+        # Sort waypoints by day then time
+        waypoints.sort(key=lambda w: (w['day'], w['time_label']))
+
         return {
             'summary': trip_data['summary'],
             'route': {

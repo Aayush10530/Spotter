@@ -42,13 +42,13 @@ def split_block_at_midnight(block: dict, day_number: int) -> list:
         'end_hour': block['end_hour'] - 24.0,
         'day_number': day_number + 1
     }
-    return [first_part, second_part]
+    return [first_part] + split_block_at_midnight(second_part, day_number + 1)
 
 import math
 from trip_planner.constants import *
 
 class HOSSimulator:
-    def __init__(self, cycle_hours_used):
+    def __init__(self, cycle_hours_used: float, origin_name: str = "Origin"):
         self.current_time = 0.0
         self.current_day = 1
         self.days = []
@@ -66,7 +66,7 @@ class HOSSimulator:
         self.total_drive_hours = 0.0
         self.total_fuel_stops = 0
         
-        self.add_block(OFF_DUTY, DAY_START_HOUR, "Origin", None)
+        self.add_block(OFF_DUTY, DAY_START_HOUR, origin_name, None)
 
     def format_time(self, hour: float) -> str:
         h = int(hour)
@@ -136,10 +136,10 @@ class HOSSimulator:
             
         parts = split_block_at_midnight(block, self.current_day)
         
-        for i, part in enumerate(parts):
-            if i > 0:
-                self.finish_day()
+        for part in parts:
             self.current_day_blocks.append(part)
+            if part['end_hour'] >= 24.0:
+                self.finish_day()
             
         self.current_time = (self.current_time + duration) % 24.0
         
@@ -200,8 +200,19 @@ class HOSSimulator:
                 continue
 
     def end_trip(self, location: str):
-        if self.current_time > 0 and self.current_time < 24.0:
-            self.add_block(OFF_DUTY, 24.0 - self.current_time, location, "End of trip", "Off duty - trip complete")
+        """
+        Pads the final day to exactly 24 hours with off_duty
+        then finalizes the last day's log sheet.
+        """
+        remaining = (24.0 - self.current_time) % 24.0
+        if remaining > 0.01:
+            self.add_block(
+                OFF_DUTY,
+                remaining,
+                location,
+                "End of trip",
+                "Off duty — trip complete"
+            )
         if self.current_day_blocks:
             self.finish_day()
 
@@ -213,7 +224,7 @@ def calculate_trip(
     loaded_route: dict,
     cycle_hours_used: float = 0.0
 ) -> dict:
-    sim = HOSSimulator(cycle_hours_used)
+    sim = HOSSimulator(cycle_hours_used, origin_coords['name'])
     
     sim.add_block(ON_DUTY_ND, PRE_TRIP_DURATION_HOURS, origin_coords['name'], "Pre-trip inspection", "Pre-trip inspection")
     

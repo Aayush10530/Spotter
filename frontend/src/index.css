@@ -40,6 +40,33 @@
   --border-radius-lg: 0.5rem;
 }
 
+body.dark-theme {
+  --color-primary: #a3c9ff;
+  --color-primary-container: #004782;
+  --color-on-primary: #00315e;
+  --color-on-primary-container: #d2e4ff;
+  
+  --color-secondary: #4ade80;
+  --color-error: #ffb4ab;
+  
+  --color-background: #1c1c17;
+  --color-on-background: #e6e2d9;
+  
+  --color-surface: #1c1c17;
+  --color-on-surface: #e6e2d9;
+  --color-on-surface-variant: #c4c7d0;
+  --color-surface-container: #32302a;
+  --color-surface-container-high: #2b2924;
+  --color-surface-container-lowest: #0f0f0c;
+  --color-surface-container-low: #1c1c17;
+  
+  --color-outline: #8c9099;
+  --color-outline-variant: #44474f;
+  --color-border: rgba(255, 255, 255, 0.12);
+  
+  --bg-level-0: #141411;
+}
+
 * {
   box-sizing: border-box;
 }

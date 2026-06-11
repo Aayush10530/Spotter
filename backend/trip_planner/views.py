@@ -10,29 +10,34 @@ from .services.log_builder import LogSheetBuilder
 
 logger = logging.getLogger(__name__)
 
+
 class HealthView(APIView):
     def get(self, request):
-        return Response({"status": "ok"})
+        return Response({"status": "ok", "service": "SpotterAI ELD Trip Planner"})
+
 
 class TripPlanView(APIView):
     def post(self, request):
         serializer = TripInputSerializer(data=request.data)
         if not serializer.is_valid():
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        
+            return Response(
+                serializer.errors,
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
         data = serializer.validated_data
-        
+
         try:
-            # 1. Geocoding
-            origin_coords = geocode_location(data['current_location'])
-            pickup_coords = geocode_location(data['pickup_location'])
+            # Step 1 — Geocoding
+            origin_coords  = geocode_location(data['current_location'])
+            pickup_coords  = geocode_location(data['pickup_location'])
             dropoff_coords = geocode_location(data['dropoff_location'])
-            
-            # 2. Routing
+
+            # Step 2 — Routing
             deadhead_route = get_route(origin_coords, pickup_coords)
-            loaded_route = get_route(pickup_coords, dropoff_coords)
-            
-            # 3. HOS Calculation
+            loaded_route   = get_route(pickup_coords, dropoff_coords)
+
+            # Step 3 — HOS Calculation
             trip_data = calculate_trip(
                 origin_coords,
                 pickup_coords,
@@ -41,8 +46,8 @@ class TripPlanView(APIView):
                 loaded_route,
                 data.get('cycle_hours_used', 0.0)
             )
-            
-            # 4. Log Building
+
+            # Step 4 — Build final response
             final_response = LogSheetBuilder.build(
                 origin_coords,
                 pickup_coords,
@@ -51,27 +56,17 @@ class TripPlanView(APIView):
                 loaded_route,
                 trip_data
             )
-            
+
             return Response(final_response, status=status.HTTP_200_OK)
-            
+
         except ValueError as e:
-            # Catch expected business logic exceptions
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"error": str(e)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         except Exception as e:
-            # Catch unexpected errors (e.g. external API failures)
-            logger.exception("Error processing trip")
-            return Response({"error": f"An internal error occurred: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-class FleetView(APIView):
-    def get(self, request):
-        return Response([
-            {'id': 'TRK-001', 'lat': 41.8781, 'lng': -87.6298, 'status': 'driving', 'driver': 'John Doe'},
-            {'id': 'TRK-002', 'lat': 39.7684, 'lng': -86.1581, 'status': 'off_duty', 'driver': 'Jane Smith'},
-            {'id': 'TRK-003', 'lat': 39.9612, 'lng': -82.9988, 'status': 'sleeper', 'driver': 'Mike Jones'},
-        ])
-
-class ChatView(APIView):
-    def post(self, request):
-        msg = request.data.get('message', '')
-        return Response({'reply': f'Dispatch: Received your message {msg}. Copy that, stay safe!'})
-
+            logger.exception("Unexpected error processing trip")
+            return Response(
+                {"error": "An internal error occurred. Please try again."},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )

@@ -1,0 +1,73 @@
+.error-container {
+  background-color: #ffdad6;
+  color: #ba1a1a;
+  border-radius: var(--border-radius-lg, 8px);
+  padding: 24px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  border: 1px solid rgba(186, 26, 26, 0.2);
+  box-shadow: 0 4px 12px rgba(186, 26, 26, 0.08);
+  animation: slideInError 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes slideInError {
+  from { opacity: 0; transform: translateY(-15px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.error-icon {
+  font-size: 32px !important;
+  color: #ba1a1a;
+  flex-shrink: 0;
+  animation: shake 0.5s ease-in-out 0.2s;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px) rotate(-5deg); }
+  75% { transform: translateX(4px) rotate(5deg); }
+}
+
+.error-content {
+  flex: 1;
+}
+
+.error-title {
+  margin: 0 0 8px 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #ba1a1a;
+}
+
+.error-message {
+  margin: 0 0 20px 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #410002;
+}
+
+.error-dismiss-btn {
+  background-color: #ba1a1a;
+  color: #ffffff;
+  border: none;
+  padding: 10px 24px;
+  border-radius: var(--border-radius, 4px);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.error-dismiss-btn:hover {
+  background-color: #93000a;
+  box-shadow: 0 2px 6px rgba(186, 26, 26, 0.3);
+  transform: translateY(-1px);
+}
+
+.error-dismiss-btn:active {
+  transform: translateY(0);
+}

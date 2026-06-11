@@ -28,3 +28,21 @@ export const planTrip = async (formData) => {
     }
   }
 };
+
+export const getFleetStatus = async () => {
+  try {
+    const response = await api.get('/fleet/');
+    return response.data;
+  } catch (error) {
+    throw new Error('Error fetching fleet status.');
+  }
+};
+
+export const sendMessage = async (message) => {
+  try {
+    const response = await api.post('/chat/', { message });
+    return response.data;
+  } catch (error) {
+    throw new Error('Error sending message.');
+  }
+};

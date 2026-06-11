@@ -24,7 +24,7 @@ def get_route(origin: dict, destination: dict) -> dict:
     if not api_key:
         raise RoutingError("ORS_API_KEY environment variable is not set")
         
-    url = "https://api.openrouteservice.org/v2/directions/driving-hgv/geojson"
+    url = "https://api.openrouteservice.org/v2/directions/driving-car/geojson"
     headers = {
         "Authorization": api_key,
         "Content-Type": "application/json"
@@ -39,10 +39,6 @@ def get_route(origin: dict, destination: dict) -> dict:
     
     try:
         response = requests.post(url, json=body, headers=headers, timeout=10)
-        # Fallback to driving-car if driving-hgv is not available on free tier
-        if response.status_code in (400, 403, 404):
-            url = "https://api.openrouteservice.org/v2/directions/driving-car/geojson"
-            response = requests.post(url, json=body, headers=headers, timeout=10)
             
         response.raise_for_status()
         data = response.json()
