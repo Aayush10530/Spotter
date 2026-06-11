@@ -1,8 +1,8 @@
 import React, { useRef, useEffect } from 'react';
-import { drawGrid } from '../utils/canvas/drawGrid';
-import { drawBlocks } from '../utils/canvas/drawBlocks';
-import { drawRemarks } from '../utils/canvas/drawRemarks';
-import { drawTotals } from '../utils/canvas/drawTotals';
+import { drawGrid } from '../../utils/canvas/drawGrid';
+import { drawBlocks } from '../../utils/canvas/drawBlocks';
+import { drawRemarks } from '../../utils/canvas/drawRemarks';
+import { drawTotals } from '../../utils/canvas/drawTotals';
 
 const ELDLogSheet = ({ dayData }) => {
   const canvasRef = useRef(null);
