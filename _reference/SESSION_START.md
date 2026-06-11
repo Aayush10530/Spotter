@@ -5,15 +5,9 @@
 ---
 PROJECT: SpotterAI ELD Trip Planner
 STACK: Django + React (Create React App)
-CURRENT PHASE: Phase 4
-LAST COMPLETED: geocoding.py — converts city name to lat/lng coords
-NEXT TASK: routing.py — gets distance, duration, polyline from ORS
-
-ARCHITECTURE RULES — READ BEFORE DOING ANYTHING:
-- backend/trip_planner/services/ holds all logic
-- views.py only handles HTTP, calls services
-- hos_calculator.py is pure math, no strings
-- log_builder.py does all string formatting
+CURRENT PHASE: Phase 5
+LAST COMPLETED: routing.py — gets distance, duration, polyline from ORS
+NEXT TASK: hos_calculator.py — applies HOS rules to generate log blocks
 - frontend/src/services/api.js holds all axios calls
 - frontend/src/utils/ holds all helper functions
 - Never mix business logic with UI components

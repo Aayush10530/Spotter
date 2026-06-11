@@ -70,7 +70,7 @@ route   = get_route(chicago, dallas)
 assert 850  < route['distance_miles'] < 1000
 assert 12.0 < route['duration_hours'] < 24.0
 assert len(route['polyline']) > 10
-print(f"  [PASS] Chicago→Dallas: {route['distance_miles']:.0f} mi")
+print(f"  [PASS] Chicago->Dallas: {route['distance_miles']:.0f} mi")
 print(f"  [PASS] Duration: {route['duration_hours']:.1f} hrs")
 print("  PHASE 4 PASSED\n")
 
@@ -82,39 +82,39 @@ print("  PHASE 4 PASSED\n")
 
 # Uncomment when hos_calculator.py is built
 
-# print("\n=== PHASE 5: hos_calculator.py ===")
-# from trip_planner.services.hos_calculator import calculate_trip
-# from trip_planner.services.routing import get_route
-#
-# chicago = geocode_location("Chicago, IL")
-# dallas  = geocode_location("Dallas, TX")
-# atlanta = geocode_location("Atlanta, GA")
-#
-# deadhead = get_route(chicago, dallas)
-# loaded   = get_route(dallas, atlanta)
-#
-# result = calculate_trip(
-#     origin_coords=chicago,
-#     pickup_coords=dallas,
-#     dropoff_coords=atlanta,
-#     deadhead_route=deadhead,
-#     loaded_route=loaded,
-#     cycle_hours_used=22
-# )
-#
-# # Validate every day totals 24 hours
-# for day in result['days']:
-#     total = sum(
-#         b['end_hour'] - b['start_hour']
-#         for b in day['time_blocks']
-#     )
-#     assert abs(total - 24.0) < 0.01, \
-#         f"Day {day['day_number']} = {total} hrs not 24.0"
-#     print(f"  [PASS] Day {day['day_number']}: {total:.1f} hrs")
-#
-# print(f"  [PASS] Total days: {result['summary']['total_days']}")
-# print(f"  [PASS] Total miles: {result['summary']['total_miles']}")
-# print("  PHASE 5 PASSED\n")
+print("\n=== PHASE 5: hos_calculator.py ===")
+from trip_planner.services.hos_calculator import calculate_trip
+from trip_planner.services.routing import get_route
+
+chicago = geocode_location("Chicago, IL")
+dallas  = geocode_location("Dallas, TX")
+atlanta = geocode_location("Atlanta, GA")
+
+deadhead = get_route(chicago, dallas)
+loaded   = get_route(dallas, atlanta)
+
+result = calculate_trip(
+    origin_coords=chicago,
+    pickup_coords=dallas,
+    dropoff_coords=atlanta,
+    deadhead_route=deadhead,
+    loaded_route=loaded,
+    cycle_hours_used=22
+)
+
+# Validate every day totals 24 hours
+for day in result['days']:
+    total = sum(
+        b['end_hour'] - b['start_hour']
+        for b in day['time_blocks']
+    )
+    assert abs(total - 24.0) < 0.01, \
+        f"Day {day['day_number']} = {total} hrs not 24.0"
+    print(f"  [PASS] Day {day['day_number']}: {total:.1f} hrs")
+
+print(f"  [PASS] Total days: {result['summary']['total_days']}")
+print(f"  [PASS] Total miles: {result['summary']['total_miles']}")
+print("  PHASE 5 PASSED\n")
 
 
 print("=== ALL ACTIVE TESTS PASSED ===\n")
