@@ -5,9 +5,9 @@
 ---
 PROJECT: SpotterAI ELD Trip Planner
 STACK: Django + React (Create React App)
-CURRENT PHASE: Phase 6
-LAST COMPLETED: hos_calculator.py — applies HOS rules to generate log blocks
-NEXT TASK: log_builder.py — merges route and scheduling data into response schema
+CURRENT PHASE: Phase 7
+LAST COMPLETED: log_builder.py — merges route and scheduling data into response schema
+NEXT TASK: serializers.py — validates inputs and structures response
 
 ARCHITECTURE RULES — READ BEFORE DOING ANYTHING:
 - backend/trip_planner/services/ holds all logic

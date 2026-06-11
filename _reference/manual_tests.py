@@ -136,4 +136,28 @@ assert len(final_output['route']['waypoints']) >= 3
 print(f"  [PASS] Final output generated with {len(final_output['route']['waypoints'])} waypoints")
 print("  PHASE 6 PASSED\n")
 
+print("\n=== PHASE 7: serializers.py ===")
+from trip_planner.serializers import TripInputSerializer
+
+data_valid = {
+    'current_location': 'Chicago, IL',
+    'pickup_location': 'Dallas, TX',
+    'dropoff_location': 'Atlanta, GA',
+    'cycle_hours_used': 22.5
+}
+serializer = TripInputSerializer(data=data_valid)
+assert serializer.is_valid(), serializer.errors
+print("  [PASS] Valid data accepted")
+
+data_invalid = {
+    'current_location': 'Chicago, IL',
+    'cycle_hours_used': 80.0
+}
+serializer_invalid = TripInputSerializer(data=data_invalid)
+assert not serializer_invalid.is_valid()
+assert 'pickup_location' in serializer_invalid.errors
+assert 'cycle_hours_used' in serializer_invalid.errors
+print("  [PASS] Invalid data rejected correctly")
+print("  PHASE 7 PASSED\n")
+
 print("=== ALL ACTIVE TESTS PASSED ===\n")
