@@ -34,15 +34,15 @@ const TripForm = ({ onSubmit, isLoading }) => {
     <form onSubmit={handleSubmit} className="flex flex-col gap-5 w-full">
       
       <div className="flex flex-col gap-1.5">
-        <label className="text-xs font-semibold text-on-surface tracking-wide uppercase">Current Location</label>
+        <label className="text-xs font-semibold text-on-surface dark:text-gray-300 tracking-wide uppercase">Current Location</label>
         <div className="relative">
-          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">gps_fixed</span>
+          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant dark:text-gray-400 text-[18px]">gps_fixed</span>
           <input 
             required
             name="current_location"
             value={formData.current_location}
             onChange={handleChange}
-            className="w-full h-[40px] border border-outline-variant rounded pl-10 pr-3 text-sm bg-transparent text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary placeholder:text-outline" 
+            className="w-full h-[40px] border border-outline-variant dark:border-gray-700 rounded pl-10 pr-3 text-sm bg-transparent text-on-surface dark:text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary placeholder:text-outline dark:placeholder:text-gray-500" 
             placeholder="City, State or ZIP" 
             type="text" 
           />
@@ -50,15 +50,15 @@ const TripForm = ({ onSubmit, isLoading }) => {
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <label className="text-xs font-semibold text-on-surface tracking-wide uppercase">Pickup Location</label>
+        <label className="text-xs font-semibold text-on-surface dark:text-gray-300 tracking-wide uppercase">Pickup Location</label>
         <div className="relative">
-          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-green-600 text-[18px]">place</span>
+          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-green-600 dark:text-green-500 text-[18px]">place</span>
           <input 
             required
             name="pickup_location"
             value={formData.pickup_location}
             onChange={handleChange}
-            className="w-full h-[40px] border border-outline-variant rounded pl-10 pr-3 text-sm bg-transparent text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary placeholder:text-outline" 
+            className="w-full h-[40px] border border-outline-variant dark:border-gray-700 rounded pl-10 pr-3 text-sm bg-transparent text-on-surface dark:text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary placeholder:text-outline dark:placeholder:text-gray-500" 
             placeholder="City, State or ZIP" 
             type="text" 
           />
@@ -66,15 +66,15 @@ const TripForm = ({ onSubmit, isLoading }) => {
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <label className="text-xs font-semibold text-on-surface tracking-wide uppercase">Dropoff Location</label>
+        <label className="text-xs font-semibold text-on-surface dark:text-gray-300 tracking-wide uppercase">Dropoff Location</label>
         <div className="relative">
-          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-red-600 text-[18px]">flag</span>
+          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-red-600 dark:text-red-500 text-[18px]">flag</span>
           <input 
             required
             name="dropoff_location"
             value={formData.dropoff_location}
             onChange={handleChange}
-            className="w-full h-[40px] border border-outline-variant rounded pl-10 pr-3 text-sm bg-transparent text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary placeholder:text-outline" 
+            className="w-full h-[40px] border border-outline-variant dark:border-gray-700 rounded pl-10 pr-3 text-sm bg-transparent text-on-surface dark:text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary placeholder:text-outline dark:placeholder:text-gray-500" 
             placeholder="City, State or ZIP" 
             type="text" 
           />
@@ -82,15 +82,15 @@ const TripForm = ({ onSubmit, isLoading }) => {
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <label className="text-xs font-semibold text-on-surface tracking-wide uppercase">Current Cycle Used (hrs)</label>
+        <label className="text-xs font-semibold text-on-surface dark:text-gray-300 tracking-wide uppercase">Current Cycle Used (hrs)</label>
         <div className="relative">
-          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">schedule</span>
+          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant dark:text-gray-400 text-[18px]">schedule</span>
           <input 
             required
             name="current_cycle_used"
             value={formData.current_cycle_used}
             onChange={handleChange}
-            className="w-full h-[40px] border border-outline-variant rounded pl-10 pr-3 text-sm bg-transparent text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary placeholder:text-outline" 
+            className="w-full h-[40px] border border-outline-variant dark:border-gray-700 rounded pl-10 pr-3 text-sm bg-transparent text-on-surface dark:text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary placeholder:text-outline dark:placeholder:text-gray-500" 
             type="number" 
             step="0.1"
             min="0"

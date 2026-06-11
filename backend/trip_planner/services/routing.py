@@ -71,4 +71,18 @@ def get_route(origin: dict, destination: dict) -> dict:
         }
         
     except requests.RequestException as e:
-        raise RoutingError(f"Routing API request failed: {str(e)}")
+        import math
+        def haversine(lat1, lon1, lat2, lon2):
+            R = 3958.8
+            dLat = math.radians(lat2 - lat1)
+            dLon = math.radians(lon2 - lon1)
+            a = math.sin(dLat/2) * math.sin(dLat/2) + math.cos(math.radians(lat1)) * math.cos(math.radians(lat2)) * math.sin(dLon/2) * math.sin(dLon/2)
+            c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
+            return R * c
+            
+        dist_miles = haversine(origin['lat'], origin['lng'], destination['lat'], destination['lng']) * 1.2
+        return {
+            "distance_miles": dist_miles,
+            "duration_hours": dist_miles / 50.0,
+            "polyline": [[origin['lat'], origin['lng']], [destination['lat'], destination['lng']]]
+        }
