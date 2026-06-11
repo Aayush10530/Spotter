@@ -10,6 +10,9 @@ class TripInputSerializer(serializers.Serializer):
         required=False, 
         default=0.0
     )
+    trailer_id = serializers.CharField(max_length=100, required=False, allow_blank=True)
+    commodity = serializers.CharField(max_length=255, required=False, allow_blank=True)
+    departure_time = serializers.DateTimeField(required=False, allow_null=True)
 
 class TripPlanSerializer(serializers.Serializer):
     """
