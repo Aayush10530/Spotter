@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { planTrip } from '../api/tripApi';
 import TripForm from '../components/TripForm';
 import ErrorMessage from '../components/ErrorMessage';
-import LoadingSpinner from '../components/LoadingSpinner';
+import { LoadingSkeleton } from '../components/LoadingUI';
 import RouteMap from '../components/RouteMap';
 import TripSummary from '../components/TripSummary';
 import ELDLogSheet from '../components/ELDLogSheet';
@@ -60,11 +60,15 @@ function TripPlanner() {
             </header>
           )}
 
-          <div className={`${!tripResult ? 'max-w-sm w-full text-center' : 'max-w-[1200px] mx-auto pb-12 flex flex-col gap-6'}`}>
+          <div className={`${(!tripResult && !isLoading) ? 'max-w-sm w-full text-center' : 'max-w-[1200px] mx-auto pb-12 flex flex-col gap-6 w-full'}`}>
             
             {errorMessage && <ErrorMessage message={errorMessage} onRetry={() => setErrorMessage(null)} />}
             
-            {isLoading && <LoadingSpinner />}
+            {isLoading && (
+              <div className="w-full">
+                <LoadingSkeleton />
+              </div>
+            )}
 
             {!isLoading && !tripResult && !errorMessage && (
               <div className="text-center flex flex-col items-center justify-center">
