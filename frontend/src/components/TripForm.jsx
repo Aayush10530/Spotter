@@ -5,7 +5,7 @@ const TripForm = ({ onSubmit, isLoading }) => {
     current_location: '',
     pickup_location: '',
     dropoff_location: '',
-    start_time: '',
+    current_cycle_used: '',
   });
 
   const handleChange = (e) => {
@@ -20,86 +20,91 @@ const TripForm = ({ onSubmit, isLoading }) => {
     e.preventDefault();
     if (isLoading) return;
     
-    // Ensure start_time is in valid format if needed, but for now just pass the ISO string
-    let formattedData = { ...formData };
-    if (formData.start_time) {
-      formattedData.start_time = new Date(formData.start_time).toISOString();
-    }
+    const formattedData = {
+      current_location: formData.current_location,
+      pickup_location: formData.pickup_location,
+      dropoff_location: formData.dropoff_location,
+      cycle_hours_used: parseFloat(formData.current_cycle_used || 0)
+    };
     
     onSubmit(formattedData);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-4">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-5 w-full">
       
-      <div>
-        <label className="block font-label-md text-label-md text-on-surface mb-1">Current Location (Driver)</label>
+      <div className="flex flex-col gap-1.5">
+        <label className="text-xs font-semibold text-on-surface tracking-wide uppercase">Current Location</label>
         <div className="relative">
-          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">person_pin_circle</span>
+          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">gps_fixed</span>
           <input 
             required
             name="current_location"
             value={formData.current_location}
             onChange={handleChange}
-            className="w-full h-input_height hairline-all rounded-lg pl-10 pr-3 font-body-md text-body-md bg-surface text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary" 
-            placeholder="e.g. Chicago, IL" 
+            className="w-full h-[40px] border border-outline-variant rounded pl-10 pr-3 text-sm bg-transparent text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary placeholder:text-outline" 
+            placeholder="City, State or ZIP" 
             type="text" 
           />
         </div>
       </div>
 
-      <div>
-        <label className="block font-label-md text-label-md text-on-surface mb-1">Pickup Location</label>
+      <div className="flex flex-col gap-1.5">
+        <label className="text-xs font-semibold text-on-surface tracking-wide uppercase">Pickup Location</label>
         <div className="relative">
-          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">inventory_2</span>
+          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-green-600 text-[18px]">place</span>
           <input 
             required
             name="pickup_location"
             value={formData.pickup_location}
             onChange={handleChange}
-            className="w-full h-input_height hairline-all rounded-lg pl-10 pr-3 font-body-md text-body-md bg-surface text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary" 
-            placeholder="e.g. Indianapolis, IN" 
+            className="w-full h-[40px] border border-outline-variant rounded pl-10 pr-3 text-sm bg-transparent text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary placeholder:text-outline" 
+            placeholder="City, State or ZIP" 
             type="text" 
           />
         </div>
       </div>
 
-      <div>
-        <label className="block font-label-md text-label-md text-on-surface mb-1">Dropoff Location</label>
+      <div className="flex flex-col gap-1.5">
+        <label className="text-xs font-semibold text-on-surface tracking-wide uppercase">Dropoff Location</label>
         <div className="relative">
-          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">flag</span>
+          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-red-600 text-[18px]">flag</span>
           <input 
             required
             name="dropoff_location"
             value={formData.dropoff_location}
             onChange={handleChange}
-            className="w-full h-input_height hairline-all rounded-lg pl-10 pr-3 font-body-md text-body-md bg-surface text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary" 
-            placeholder="e.g. Columbus, OH" 
+            className="w-full h-[40px] border border-outline-variant rounded pl-10 pr-3 text-sm bg-transparent text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary placeholder:text-outline" 
+            placeholder="City, State or ZIP" 
             type="text" 
           />
         </div>
       </div>
 
-      <div>
-        <label className="block font-label-md text-label-md text-on-surface mb-1">Start Time (Local)</label>
+      <div className="flex flex-col gap-1.5">
+        <label className="text-xs font-semibold text-on-surface tracking-wide uppercase">Current Cycle Used (hrs)</label>
         <div className="relative">
-          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">schedule</span>
+          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">schedule</span>
           <input 
             required
-            name="start_time"
-            value={formData.start_time}
+            name="current_cycle_used"
+            value={formData.current_cycle_used}
             onChange={handleChange}
-            className="w-full h-input_height hairline-all rounded-lg pl-10 pr-3 font-body-md text-body-md bg-surface text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary" 
-            type="datetime-local" 
+            className="w-full h-[40px] border border-outline-variant rounded pl-10 pr-3 text-sm bg-transparent text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary placeholder:text-outline" 
+            type="number" 
+            step="0.1"
+            min="0"
+            max="70"
+            placeholder="0.0"
           />
         </div>
       </div>
 
-      <div className="pt-4 mt-2 hairline-t">
+      <div className="pt-2">
         <button 
           type="submit" 
           disabled={isLoading}
-          className={`w-full h-input_height px-6 rounded-lg bg-primary text-on-primary font-label-md text-label-md hover:bg-on-primary-fixed-variant transition-colors flex items-center justify-center gap-2 ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
+          className={`w-full h-[40px] rounded bg-[#004782] text-white text-sm font-medium hover:bg-opacity-90 transition-colors flex items-center justify-center gap-2 ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
         >
           {isLoading ? (
             <>
@@ -107,7 +112,10 @@ const TripForm = ({ onSubmit, isLoading }) => {
               CALCULATING...
             </>
           ) : (
-            'GENERATE ELD LOG'
+            <>
+              Plan trip
+              <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+            </>
           )}
         </button>
       </div>

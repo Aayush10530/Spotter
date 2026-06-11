@@ -32,48 +32,62 @@ function App() {
   return (
     <div className="h-screen w-full overflow-hidden flex flex-col bg-background text-on-background">
       {/* TopNavBar */}
-      <nav className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-gutter h-[56px] hairline-b bg-surface">
-        <div className="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
-          <span className="material-symbols-outlined text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>route</span>
+      <nav className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 h-[56px] border-b border-outline-variant bg-white">
+        <div className="font-semibold text-[16px] text-on-surface flex items-center gap-2">
+          <span className="material-symbols-outlined text-[20px]" style={{ fontVariationSettings: "'FILL' 0" }}>local_shipping</span>
           SpotterAI
         </div>
         <div className="flex items-center gap-4 text-on-surface-variant">
-          <span className="material-symbols-outlined cursor-pointer hover:bg-surface-container-high p-2 rounded-full transition-colors">verified_user</span>
-          <span className="material-symbols-outlined cursor-pointer hover:bg-surface-container-high p-2 rounded-full transition-colors">code</span>
-          <span className="material-symbols-outlined cursor-pointer hover:bg-surface-container-high p-2 rounded-full transition-colors">dark_mode</span>
+          <span className="material-symbols-outlined cursor-pointer hover:bg-surface-container-high p-2 rounded-full transition-colors text-[20px]">chat_bubble_outline</span>
+          <span className="material-symbols-outlined cursor-pointer hover:bg-surface-container-high p-2 rounded-full transition-colors text-[20px]">alt_route</span>
+          <span className="material-symbols-outlined cursor-pointer hover:bg-surface-container-high p-2 rounded-full transition-colors text-[20px]">dark_mode</span>
         </div>
       </nav>
 
       {/* Main Layout */}
       <div className="flex flex-1 pt-[56px] overflow-hidden">
         
-        {/* SideNavBar */}
-        <aside className="hidden md:flex flex-col fixed top-[56px] left-0 bottom-0 w-[320px] p-4 overflow-y-auto hairline-r bg-surface-container-low text-primary z-40">
-          <div className="mb-6 px-2">
-            <div className="font-headline-md text-headline-md text-on-surface">Trip Planner</div>
-            <div className="font-body-md text-body-md text-on-surface-variant">HOS & Routing</div>
+        {/* Left Half (Form area) */}
+        <aside className={`flex flex-col h-full bg-[#FAF9F6] border-r border-outline-variant overflow-y-auto ${tripResult ? 'w-[360px] flex-shrink-0 border-r border-outline-variant' : 'w-1/2 justify-center items-center'}`}>
+          <div className={`${tripResult ? 'w-full p-6' : 'w-full max-w-md p-8 bg-[#FAF9F6] border border-outline-variant rounded'}`}>
+            {!tripResult && (
+              <div className="mb-6">
+                <h1 className="text-[22px] font-medium mb-2 text-on-surface">Plan your trip</h1>
+                <p className="text-[13px] text-on-surface-variant leading-relaxed">Enter your trip details to generate a route map and ELD-compliant daily logs.</p>
+              </div>
+            )}
+            {tripResult && (
+              <div className="mb-6">
+                <h1 className="text-[22px] font-medium mb-1 text-on-surface">Trip Planner</h1>
+                <p className="text-[13px] text-on-surface-variant">HOS & Routing</p>
+              </div>
+            )}
+            <TripForm onSubmit={handlePlanTrip} isLoading={isLoading} />
           </div>
-          
-          <TripForm onSubmit={handlePlanTrip} isLoading={isLoading} />
         </aside>
 
-        {/* Canvas Area */}
-        <main className="flex-1 md:ml-[320px] overflow-y-auto p-margin bg-background relative">
-          <header className="mb-8 max-w-[1200px] mx-auto">
-            <h1 className="font-headline-lg text-headline-lg text-on-surface mb-2">ELD Trip Plan</h1>
-            <p className="font-body-lg text-body-lg text-on-surface-variant">Review estimated hours of service compliance and routing details.</p>
-          </header>
+        {/* Right Half (Content area) */}
+        <main className={`flex-1 h-full overflow-y-auto bg-white relative ${!tripResult ? 'flex flex-col items-center justify-center' : 'p-8'}`}>
+          {tripResult && (
+            <header className="mb-8 max-w-[1200px] mx-auto">
+              <h1 className="text-3xl font-medium text-on-surface mb-2">ELD Trip Plan</h1>
+              <p className="text-on-surface-variant">Review estimated hours of service compliance and routing details.</p>
+            </header>
+          )}
 
-          <div className="flex flex-col gap-6 max-w-[1200px] mx-auto pb-12">
+          <div className={`${!tripResult ? 'max-w-sm w-full text-center' : 'max-w-[1200px] mx-auto pb-12 flex flex-col gap-6'}`}>
+            
             {errorMessage && <ErrorMessage message={errorMessage} onRetry={() => setErrorMessage(null)} />}
             
             {isLoading && <LoadingSpinner />}
 
             {!isLoading && !tripResult && !errorMessage && (
-              <div className="bg-surface-container-lowest hairline-all p-12 rounded-xl text-center flex flex-col items-center justify-center">
-                <span className="material-symbols-outlined text-[48px] text-outline mb-4">map</span>
-                <h3 className="font-headline-md text-on-surface">No Trip Planned</h3>
-                <p className="font-body-md text-on-surface-variant mt-2">Enter origin and destination details in the sidebar to generate a compliant ELD trip plan.</p>
+              <div className="text-center flex flex-col items-center justify-center">
+                <div className="w-[180px] h-[180px] bg-surface-container-lowest rounded-xl flex items-center justify-center mb-6">
+                  <span className="material-symbols-outlined text-[64px] text-outline-variant">route</span>
+                </div>
+                <h3 className="font-medium text-lg text-on-surface mb-2">Your trip plan will appear here</h3>
+                <p className="text-[13px] text-on-surface-variant leading-relaxed px-4">Complete the form to generate route mapping, estimated ETA, and HOS compliance logs.</p>
               </div>
             )}
 
