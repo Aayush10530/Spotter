@@ -160,4 +160,28 @@ assert 'cycle_hours_used' in serializer_invalid.errors
 print("  [PASS] Invalid data rejected correctly")
 print("  PHASE 7 PASSED\n")
 
+print("\n=== PHASE 8: views.py ===")
+from rest_framework.test import APIRequestFactory
+from trip_planner.views import TripPlanView, HealthView
+
+factory = APIRequestFactory()
+
+# Test Health
+request = factory.get('/api/v1/health/')
+view = HealthView.as_view()
+response = view(request)
+assert response.status_code == 200
+print("  [PASS] GET /api/v1/health/ -> 200 OK")
+
+# Test Trip Plan
+request = factory.post('/api/v1/plan-trip/', data_valid, format='json')
+view = TripPlanView.as_view()
+response = view(request)
+assert response.status_code == 200, f"Expected 200, got {response.status_code}: {response.data}"
+assert 'summary' in response.data
+assert 'days' in response.data
+assert 'route' in response.data
+print("  [PASS] POST /api/v1/plan-trip/ -> 200 OK with correct schema")
+print("  PHASE 8 PASSED\n")
+
 print("=== ALL ACTIVE TESTS PASSED ===\n")

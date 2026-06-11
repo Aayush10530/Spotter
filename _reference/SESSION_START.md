@@ -5,9 +5,9 @@
 ---
 PROJECT: SpotterAI ELD Trip Planner
 STACK: Django + React (Create React App)
-CURRENT PHASE: Phase 7
-LAST COMPLETED: log_builder.py — merges route and scheduling data into response schema
-NEXT TASK: serializers.py — validates inputs and structures response
+CURRENT PHASE: Phase 8
+LAST COMPLETED: serializers.py — validates inputs and structures response
+NEXT TASK: views.py and urls.py — connect API endpoints to services
 
 ARCHITECTURE RULES — READ BEFORE DOING ANYTHING:
 - backend/trip_planner/services/ holds all logic
