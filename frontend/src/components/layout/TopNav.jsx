@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 function TopNav({ isDarkMode, toggleDarkMode, openChat }) {
   const location = useLocation();
   const currentPath = location.pathname;
+  const [showNotifications, setShowNotifications] = useState(false);
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 h-[56px] border-b border-outline-variant bg-surface dark:bg-[#121212] dark:border-gray-800">
@@ -24,7 +25,7 @@ function TopNav({ isDarkMode, toggleDarkMode, openChat }) {
       </div>
 
       {/* Right side: Utilities */}
-      <div className="flex items-center gap-4 text-on-surface-variant dark:text-gray-300">
+      <div className="flex items-center gap-4 text-on-surface-variant dark:text-gray-300 relative">
         <span 
           onClick={openChat}
           className="material-symbols-outlined cursor-pointer hover:bg-surface-container-high dark:hover:bg-gray-800 p-2 rounded-full transition-colors text-[20px]"
@@ -39,15 +40,24 @@ function TopNav({ isDarkMode, toggleDarkMode, openChat }) {
         >
           {isDarkMode ? 'light_mode' : 'dark_mode'}
         </span>
-        <span 
-          className="material-symbols-outlined cursor-pointer hover:bg-surface-container-high dark:hover:bg-gray-800 p-2 rounded-full transition-colors text-[20px]"
-          title="Notifications"
-        >
-          notifications
-        </span>
+        <div className="relative">
+          <span 
+            onClick={() => setShowNotifications(!showNotifications)}
+            className="material-symbols-outlined cursor-pointer hover:bg-surface-container-high dark:hover:bg-gray-800 p-2 rounded-full transition-colors text-[20px]"
+            title="Notifications"
+          >
+            notifications
+          </span>
+          {showNotifications && (
+            <div className="absolute right-0 top-12 w-64 bg-white dark:bg-[#1C1C1E] border border-outline-variant dark:border-gray-800 rounded-lg shadow-lg py-3 px-4 z-50 animate-in fade-in slide-in-from-top-2">
+              <h4 className="text-[13px] font-bold text-on-surface dark:text-white mb-2 pb-2 border-b border-outline-variant dark:border-gray-800">Notifications</h4>
+              <p className="text-[12px] text-on-surface-variant dark:text-gray-400 text-center py-4">No new alerts.</p>
+            </div>
+          )}
+        </div>
         
         {/* User Avatar */}
-        <div className="w-8 h-8 rounded-full bg-gray-300 dark:bg-gray-600 ml-2 overflow-hidden border border-gray-300 dark:border-gray-600">
+        <div className="w-8 h-8 rounded-full bg-gray-300 dark:bg-gray-600 ml-2 overflow-hidden border border-gray-300 dark:border-gray-600" title="User Profile">
            <img src="https://i.pravatar.cc/100?img=11" alt="User Profile" className="w-full h-full object-cover" />
         </div>
       </div>
