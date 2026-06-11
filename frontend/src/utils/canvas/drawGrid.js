@@ -1,4 +1,4 @@
-import { COLORS } from './colorMap';
+import { COLORS } from '../colorMap';
 
 export const drawGrid = (ctx, width, height, margin) => {
   const rowHeight = (height - margin.top - margin.bottom) / 4;

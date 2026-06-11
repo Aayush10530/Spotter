@@ -1,4 +1,4 @@
-import { COLORS } from './colorMap';
+import { COLORS } from '../colorMap';
 
 export const drawTotals = (ctx, logs, width, height, margin) => {
   if (!logs || logs.length === 0) return;

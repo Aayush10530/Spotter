@@ -64,20 +64,14 @@ class TripPlanView(APIView):
 
 class FleetView(APIView):
     def get(self, request):
-        return Response([])
+        return Response([
+            {'id': 'TRK-001', 'lat': 41.8781, 'lng': -87.6298, 'status': 'driving', 'driver': 'John Doe'},
+            {'id': 'TRK-002', 'lat': 39.7684, 'lng': -86.1581, 'status': 'off_duty', 'driver': 'Jane Smith'},
+            {'id': 'TRK-003', 'lat': 39.9612, 'lng': -82.9988, 'status': 'sleeper', 'driver': 'Mike Jones'},
+        ])
 
 class ChatView(APIView):
     def post(self, request):
         msg = request.data.get('message', '')
         return Response({'reply': f'Dispatch: Received your message {msg}. Copy that, stay safe!'})
 
-class DashboardView(APIView):
-    def get(self, request):
-        return Response({
-            "metrics": {
-                "active_units": 0,
-                "refueling": 0
-            },
-            "active_violation": None,
-            "recent_trips": []
-        })
