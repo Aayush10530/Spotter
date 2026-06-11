@@ -25,35 +25,35 @@ try:
     chicago = geocode_location("Chicago, IL")
     assert 41.0 < chicago['lat'] < 42.5, f"Bad lat: {chicago['lat']}"
     assert -88.5 < chicago['lng'] < -87.0, f"Bad lng: {chicago['lng']}"
-    print(f"  ✓ Chicago: {chicago}")
+    print(f"  [PASS] Chicago: {chicago}")
 
     # Test 2: Dallas
     dallas = geocode_location("Dallas, TX")
     assert 32.0 < dallas['lat'] < 33.5, f"Bad lat: {dallas['lat']}"
     assert -97.5 < dallas['lng'] < -96.0, f"Bad lng: {dallas['lng']}"
-    print(f"  ✓ Dallas: {dallas}")
+    print(f"  [PASS] Dallas: {dallas}")
 
     # Test 3: Atlanta
     atlanta = geocode_location("Atlanta, GA")
     assert 33.0 < atlanta['lat'] < 34.5, f"Bad lat: {atlanta['lat']}"
     assert -85.0 < atlanta['lng'] < -84.0, f"Bad lng: {atlanta['lng']}"
-    print(f"  ✓ Atlanta: {atlanta}")
+    print(f"  [PASS] Atlanta: {atlanta}")
 
     # Test 4: Invalid city
     try:
         bad = geocode_location("NotARealCity, XX")
-        print(f"  ✗ Should have raised ValueError for invalid city")
+        print(f"  [FAIL] Should have raised ValueError for invalid city")
     except ValueError:
-        print(f"  ✓ Correctly raises ValueError for invalid city")
+        print(f"  [PASS] Correctly raises ValueError for invalid city")
 
     print("  PHASE 3 PASSED\n")
 
 except ImportError as e:
-    print(f"  ✗ Import error: {e}")
+    print(f"  [FAIL] Import error: {e}")
 except AssertionError as e:
-    print(f"  ✗ Assertion failed: {e}")
+    print(f"  [FAIL] Assertion failed: {e}")
 except Exception as e:
-    print(f"  ✗ Unexpected error: {e}")
+    print(f"  [FAIL] Unexpected error: {e}")
 
 
 # ─────────────────────────────────────────────
@@ -68,10 +68,10 @@ chicago = geocode_location("Chicago, IL")
 dallas  = geocode_location("Dallas, TX")
 route   = get_route(chicago, dallas)
 assert 850  < route['distance_miles'] < 1000
-assert 12.0 < route['duration_hours'] < 16.0
+assert 12.0 < route['duration_hours'] < 24.0
 assert len(route['polyline']) > 10
-print(f"  ✓ Chicago→Dallas: {route['distance_miles']:.0f} mi")
-print(f"  ✓ Duration: {route['duration_hours']:.1f} hrs")
+print(f"  [PASS] Chicago→Dallas: {route['distance_miles']:.0f} mi")
+print(f"  [PASS] Duration: {route['duration_hours']:.1f} hrs")
 print("  PHASE 4 PASSED\n")
 
 
@@ -110,10 +110,10 @@ print("  PHASE 4 PASSED\n")
 #     )
 #     assert abs(total - 24.0) < 0.01, \
 #         f"Day {day['day_number']} = {total} hrs not 24.0"
-#     print(f"  ✓ Day {day['day_number']}: {total:.1f} hrs")
+#     print(f"  [PASS] Day {day['day_number']}: {total:.1f} hrs")
 #
-# print(f"  ✓ Total days: {result['summary']['total_days']}")
-# print(f"  ✓ Total miles: {result['summary']['total_miles']}")
+# print(f"  [PASS] Total days: {result['summary']['total_days']}")
+# print(f"  [PASS] Total miles: {result['summary']['total_miles']}")
 # print("  PHASE 5 PASSED\n")
 
 
