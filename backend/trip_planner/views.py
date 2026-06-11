@@ -75,3 +75,20 @@ class ChatView(APIView):
         msg = request.data.get('message', '')
         return Response({'reply': f'Dispatch: Received your message {msg}. Copy that, stay safe!'})
 
+class DashboardView(APIView):
+    def get(self, request):
+        return Response({
+            "metrics": {
+                "active_units": 42,
+                "refueling": 8
+            },
+            "active_violation": {
+                "driver": "Robert Davis (Unit 301)",
+                "time_logged": "11h 15m",
+                "message": "11-Hour Driving Limit Breached. Immediate dispatch intervention required."
+            },
+            "recent_trips": [
+                {"id": "TRP-8492", "route": "Chicago, IL → Detroit, MI", "driver": "J. Smith", "status": "Completed"},
+                {"id": "TRP-8493", "route": "Atlanta, GA → Miami, FL", "driver": "M. Johnson", "status": "In Progress"}
+            ]
+        })
