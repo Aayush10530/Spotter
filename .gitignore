@@ -3,3 +3,5 @@ UI/
 .gemini/
 venv/
 .env
+__pycache__/
+*.pyc
