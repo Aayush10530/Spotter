@@ -61,19 +61,18 @@ except Exception as e:
 # ADD AFTER routing.py IS BUILT
 # ─────────────────────────────────────────────
 
-# print("\n=== PHASE 4: routing.py ===")
-# Uncomment when routing.py is built
+print("\n=== PHASE 4: routing.py ===")
 
-# from trip_planner.services.routing import get_route
-# chicago = geocode_location("Chicago, IL")
-# dallas  = geocode_location("Dallas, TX")
-# route   = get_route(chicago, dallas)
-# assert 850  < route['distance_miles'] < 1000
-# assert 12.0 < route['duration_hours'] < 16.0
-# assert len(route['polyline']) > 10
-# print(f"  ✓ Chicago→Dallas: {route['distance_miles']:.0f} mi")
-# print(f"  ✓ Duration: {route['duration_hours']:.1f} hrs")
-# print("  PHASE 4 PASSED\n")
+from trip_planner.services.routing import get_route
+chicago = geocode_location("Chicago, IL")
+dallas  = geocode_location("Dallas, TX")
+route   = get_route(chicago, dallas)
+assert 850  < route['distance_miles'] < 1000
+assert 12.0 < route['duration_hours'] < 16.0
+assert len(route['polyline']) > 10
+print(f"  ✓ Chicago→Dallas: {route['distance_miles']:.0f} mi")
+print(f"  ✓ Duration: {route['duration_hours']:.1f} hrs")
+print("  PHASE 4 PASSED\n")
 
 
 # ─────────────────────────────────────────────
