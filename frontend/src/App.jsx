@@ -43,11 +43,11 @@ function TripPlanner() {
     <div className="app-layout">
       <nav className="top-nav">
         <div className="nav-brand">
-          <span className="material-symbols-outlined">local_shipping</span>
+          <span className="material-symbols-outlined icon-logo">local_shipping</span>
           SpotterAI
         </div>
         <div className="nav-actions">
-          <button className="nav-button" title="Toggle Theme" onClick={() => setTheme(prev => prev === 'light' ? 'dark' : 'light')}>
+          <button className="nav-button theme-toggle" title="Toggle Theme" onClick={() => setTheme(prev => prev === 'light' ? 'dark' : 'light')}>
             <span className="material-symbols-outlined">{theme === 'light' ? 'dark_mode' : 'light_mode'}</span>
           </button>
         </div>
