@@ -20,10 +20,24 @@ export const drawBlocks = (ctx, timeBlocks) => {
       if (statusKey === 'on_duty_nd') strokeColor = rootStyles.getPropertyValue('--color-on-duty').trim();
     }
     
-    ctx.strokeStyle = strokeColor || STATUS_COLORS[statusKey] || '#727782';
+    const strokeStyleVal = strokeColor || STATUS_COLORS[statusKey] || '#727782';
+    ctx.strokeStyle = strokeStyleVal;
+    
+    // Add 3D float shadow effect
+    ctx.shadowColor = strokeStyleVal;
+    ctx.shadowBlur = 8;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 3;
+    
     ctx.moveTo(x1, y);
     ctx.lineTo(x2, y);
     ctx.stroke();
+
+    // Reset shadow
+    ctx.shadowColor = 'transparent';
+    ctx.shadowBlur = 0;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 0;
 
     if (idx < timeBlocks.length - 1) {
       const nextBlock = timeBlocks[idx + 1];

@@ -4,18 +4,27 @@ import {
 } from './timeCoords';
 
 export const drawGrid = (ctx, dayData) => {
-  ctx.strokeStyle = '#c2c6d2';
-  ctx.fillStyle = '#424751';
-  ctx.lineWidth = 1;
-  ctx.font = '11px Inter, sans-serif';
+  const rootStyles = getComputedStyle(document.body);
+  const colorBorder = rootStyles.getPropertyValue('--color-border').trim() || '#c2c6d2';
+  const colorOnSurface = rootStyles.getPropertyValue('--color-on-surface').trim() || '#1c1c17';
+  const colorSurfaceLow = rootStyles.getPropertyValue('--color-surface-container-low').trim() || '#f6f4eb';
+  const colorSurfaceHigh = rootStyles.getPropertyValue('--color-surface-container-high').trim() || '#eae8e0';
 
-  ctx.fillStyle = '#f6f4eb';
+  ctx.strokeStyle = colorBorder;
+  ctx.lineWidth = 1;
+  ctx.font = '11px "Plus Jakarta Sans", sans-serif';
+
+  const headerGrad = ctx.createLinearGradient(10, 10, 10, 110);
+  headerGrad.addColorStop(0, colorSurfaceLow);
+  headerGrad.addColorStop(1, colorSurfaceHigh);
+  
+  ctx.fillStyle = headerGrad;
   ctx.fillRect(10, 10, 840, 100);
   ctx.strokeRect(10, 10, 840, 100);
 
-  ctx.fillStyle = '#1c1c17';
+  ctx.fillStyle = colorOnSurface;
   ctx.textAlign = 'left';
-  ctx.font = 'bold 11px Inter, sans-serif';
+  ctx.font = 'bold 11px "Plus Jakarta Sans", sans-serif';
   ctx.fillText(`DATE: ${dayData?.date_label || 'N/A'}`, 25, 45);
   ctx.fillText(`TOTAL MILES: ${dayData?.total_miles || 0} mi`, 25, 80);
   ctx.fillText(`CARRIER: SpotterAI Logistics`, 250, 45);
@@ -24,12 +33,12 @@ export const drawGrid = (ctx, dayData) => {
   ctx.fillText(`DRIVER SIGNATURE: _______________________`, 500, 45);
   ctx.fillText(`CO-DRIVER: N/A`, 500, 80);
 
-  ctx.fillStyle = '#424751';
+  ctx.fillStyle = rootStyles.getPropertyValue('--color-on-surface-variant').trim() || '#424751';
   Object.keys(ROW_BOUNDARIES).forEach((status, i) => {
     const { top, bottom } = ROW_BOUNDARIES[status];
     
     if (i % 2 === 0) {
-      ctx.fillStyle = '#fdfdfb';
+      ctx.fillStyle = rootStyles.getPropertyValue('--color-surface').trim() || '#fdfdfb';
       ctx.fillRect(GRID_LEFT, top, GRID_RIGHT - GRID_LEFT, bottom - top);
     }
     
@@ -40,14 +49,14 @@ export const drawGrid = (ctx, dayData) => {
     ctx.lineTo(GRID_RIGHT, bottom);
     ctx.stroke();
 
-    ctx.fillStyle = '#1c1c17';
-    ctx.font = 'bold 11px Inter, sans-serif';
+    ctx.fillStyle = colorOnSurface;
+    ctx.font = 'bold 11px "Plus Jakarta Sans", sans-serif';
     ctx.textAlign = 'right';
     ctx.fillText(STATUS_LABELS[status], GRID_LEFT - 10, (top + bottom) / 2 + 4);
   });
 
   ctx.textAlign = 'center';
-  ctx.font = '10px Inter, sans-serif';
+  ctx.font = '10px "Plus Jakarta Sans", sans-serif';
   for (let h = 0; h <= 24; h++) {
     const x = hourToX(h);
     ctx.lineWidth = (h === 0 || h === 12 || h === 24) ? 2 : 1;
