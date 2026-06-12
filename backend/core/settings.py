@@ -65,8 +65,8 @@ if 'your_postgres_username' in db_url:
 DATABASES = {
     'default': dj_database_url.config(
         default=db_url,
-        conn_max_age=600,
-        ssl_require=False if 'localhost' in db_url or '127.0.0.1' in db_url or 'sqlite' in db_url else True
+        conn_max_age=0,  # ← change from 600 to 0
+        ssl_require=True
     )
 }
 
