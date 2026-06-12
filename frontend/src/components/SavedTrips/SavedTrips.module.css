@@ -1,0 +1,99 @@
+.savedTripsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-on-surface);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.error {
+  color: var(--color-error);
+  font-size: 13px;
+  background-color: var(--color-error-container);
+  padding: 8px 12px;
+  border-radius: var(--border-radius);
+}
+
+.loading, .empty {
+  font-size: 13px;
+  color: var(--color-on-surface-variant);
+  text-align: center;
+  padding: 16px 0;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.tripCard {
+  background-color: var(--color-surface-container-low);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  padding: 12px;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.tripCard:hover {
+  background-color: var(--color-surface-container-high);
+  border-color: var(--color-primary);
+  transform: translateY(-1px);
+}
+
+.tripRoute {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  padding-right: 24px;
+}
+
+.routeText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100px;
+}
+
+.tripMeta {
+  display: flex;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--color-on-surface-variant);
+}
+
+.deleteButton {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  color: var(--color-outline);
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+}
+
+.deleteButton:hover {
+  color: var(--color-error);
+}

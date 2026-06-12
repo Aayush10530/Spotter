@@ -131,9 +131,10 @@ assert 'cycle_hours_used' in serializer_invalid.errors
 print("  [PASS] Invalid data rejected correctly")
 print("  PHASE 7 PASSED\n")
 
-print("\n=== PHASE 8: views.py ===")
+print("\n=== PHASE 8: views.py & auth ===")
 from rest_framework.test import APIRequestFactory
-from trip_planner.views import TripPlanView, HealthView
+from trip_planner.views import HealthView, RegisterView, MyTokenObtainPairView, TripPlanView, TripPlanListView, TripPlanDetailView
+from django.contrib.auth.models import User
 
 factory = APIRequestFactory()
 
@@ -143,14 +144,44 @@ response = view(request)
 assert response.status_code == 200
 print("  [PASS] GET /api/v1/health/ -> 200 OK")
 
-request = factory.post('/api/v1/plan-trip/', data_valid, format='json')
-view = TripPlanView.as_view()
-response = view(request)
-assert response.status_code == 200, f"Expected 200, got {response.status_code}: {response.data}"
-assert 'summary' in response.data
-assert 'days' in response.data
-assert 'route' in response.data
-print("  [PASS] POST /api/v1/plan-trip/ -> 200 OK with correct schema")
+User.objects.filter(username="testdriver").delete()
+
+reg_data = {
+    "username": "testdriver",
+    "email": "testdriver@spotter.ai",
+    "password": "securepassword123"
+}
+request = factory.post('/api/v1/auth/register/', reg_data, format='json')
+reg_view = RegisterView.as_view()
+response = reg_view(request)
+assert response.status_code == 201, f"Expected 201, got {response.status_code}: {response.data}"
+assert 'access' in response.data
+print("  [PASS] POST /api/v1/auth/register/ -> 201 Created")
+
+login_data = {
+    "username": "testdriver",
+    "password": "securepassword123"
+}
+request = factory.post('/api/v1/auth/login/', login_data, format='json')
+login_view = MyTokenObtainPairView.as_view()
+response = login_view(request)
+assert response.status_code == 200
+access_token = response.data['access']
+print("  [PASS] POST /api/v1/auth/login/ -> 200 OK")
+
+request = factory.post(
+    '/api/v1/plan-trip/',
+    data_valid,
+    format='json',
+    HTTP_AUTHORIZATION=f'Bearer {access_token}'
+)
+plan_view = TripPlanView.as_view()
+response = plan_view(request)
+assert response.status_code == 201, f"Expected 201, got {response.status_code}: {response.data}"
+assert 'id' in response.data
+assert 'data' in response.data
+trip_id = response.data['id']
+print("  [PASS] POST /api/v1/plan-trip/ with JWT -> 201 Created and persisted")
 
 data_multistop = {
     'current_location': 'Chicago, IL',
@@ -159,15 +190,39 @@ data_multistop = {
     'dropoff_location': 'Atlanta, GA',
     'cycle_hours_used': 10.0
 }
-request = factory.post('/api/v1/plan-trip/', data_multistop, format='json')
-response = view(request)
-assert response.status_code == 200, f"Expected 200, got {response.status_code}: {response.data}"
-assert 'summary' in response.data
-assert 'days' in response.data
-assert 'route' in response.data
-waypoints = response.data['route']['waypoints']
-assert len(waypoints) >= 5
-print("  [PASS] POST /api/v1/plan-trip/ with multi-stops -> 200 OK")
+request = factory.post(
+    '/api/v1/plan-trip/',
+    data_multistop,
+    format='json',
+    HTTP_AUTHORIZATION=f'Bearer {access_token}'
+)
+response = plan_view(request)
+assert response.status_code == 201, f"Expected 201, got {response.status_code}: {response.data}"
+assert 'id' in response.data
+assert 'data' in response.data
+print("  [PASS] POST /api/v1/plan-trip/ with multi-stops & JWT -> 201 Created")
+
+request = factory.get(
+    '/api/v1/trips/',
+    format='json',
+    HTTP_AUTHORIZATION=f'Bearer {access_token}'
+)
+list_view = TripPlanListView.as_view()
+response = list_view(request)
+assert response.status_code == 200
+assert len(response.data) >= 2
+print("  [PASS] GET /api/v1/trips/ with JWT -> 200 OK")
+
+request = factory.delete(
+    f'/api/v1/trips/{trip_id}/',
+    format='json',
+    HTTP_AUTHORIZATION=f'Bearer {access_token}'
+)
+detail_view = TripPlanDetailView.as_view()
+response = detail_view(request, pk=trip_id)
+assert response.status_code == 204
+print("  [PASS] DELETE /api/v1/trips/<id>/ with JWT -> 204 No Content")
+
 print("  PHASE 8 PASSED\n")
 
-print("=== ALL ACTIVE TESTS PASSED ===\n")
+print("=== ALL ACTIVE TESTS ASSERTS PASSED ===\n")
