@@ -58,11 +58,15 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 import dj_database_url
 
+db_url = os.getenv('DATABASE_URL', f"sqlite:///{BASE_DIR / 'db.sqlite3'}")
+if 'your_postgres_username' in db_url:
+    db_url = f"sqlite:///{BASE_DIR / 'db.sqlite3'}"
+
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.getenv('DATABASE_URL', 'postgresql://postgres:postgres@localhost:5432/spotter'),
+        default=db_url,
         conn_max_age=600,
-        ssl_require=False if 'localhost' in os.getenv('DATABASE_URL', 'localhost') or '127.0.0.1' in os.getenv('DATABASE_URL', '127.0.0.1') else True
+        ssl_require=False if 'localhost' in db_url or '127.0.0.1' in db_url or 'sqlite' in db_url else True
     )
 }
 
