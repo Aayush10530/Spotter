@@ -8,18 +8,12 @@ import TripSummary from './components/TripSummary/TripSummary';
 import ELDLogSheet from './components/ELDLogSheet/ELDLogSheet';
 import HOSCompliance from './components/HOSCompliance/HOSCompliance';
 import StopTimeline from './components/StopTimeline/StopTimeline';
-import FleetDashboard from './components/FleetDashboard/FleetDashboard';
-import ChatPanel from './components/ChatPanel/ChatPanel';
 import './App.css';
 
 function TripPlanner() {
   const [tripResult, setTripResult] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
-
-  // New state for nav bar features
-  const [isFleetOpen, setIsFleetOpen] = useState(false);
-  const [isChatOpen, setIsChatOpen] = useState(false);
   
   // Theme state: default to light, check localStorage
   const [theme, setTheme] = useState(() => {
@@ -64,12 +58,6 @@ function TripPlanner() {
           SpotterAI
         </div>
         <div className="nav-actions">
-          <button className="nav-button" title="Messages" onClick={() => setIsChatOpen(true)}>
-            <span className="material-symbols-outlined">mode_comment</span>
-          </button>
-          <button className="nav-button" title="Fleet Dashboard" onClick={() => setIsFleetOpen(true)}>
-            <span className="material-symbols-outlined">local_shipping</span>
-          </button>
           <button className="nav-button" title="Toggle Theme" onClick={toggleTheme}>
             <span className="material-symbols-outlined">
               {theme === 'light' ? 'dark_mode' : 'light_mode'}
@@ -150,10 +138,6 @@ function TripPlanner() {
           )}
         </section>
       </main>
-
-      {/* Floating Panels */}
-      <FleetDashboard isOpen={isFleetOpen} onClose={() => setIsFleetOpen(false)} />
-      <ChatPanel isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
     </div>
   );
 }
