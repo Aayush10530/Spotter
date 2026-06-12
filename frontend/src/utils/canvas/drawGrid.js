@@ -7,8 +7,6 @@ export const drawGrid = (ctx, dayData) => {
   const rootStyles = getComputedStyle(document.body);
   const colorBorder = rootStyles.getPropertyValue('--color-border').trim() || '#c2c6d2';
   const colorOnSurface = rootStyles.getPropertyValue('--color-on-surface').trim() || '#1c1c17';
-  const colorSurfaceLow = rootStyles.getPropertyValue('--color-surface-container-low').trim() || '#f6f4eb';
-  const colorSurfaceHigh = rootStyles.getPropertyValue('--color-surface-container-high').trim() || '#eae8e0';
 
   ctx.strokeStyle = colorBorder;
   ctx.lineWidth = 1;

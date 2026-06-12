@@ -1,8 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { drawGrid } from '../../utils/canvas/drawGrid';
 import { drawBlocks } from '../../utils/canvas/drawBlocks';
-import { drawRemarks } from '../../utils/canvas/drawRemarks';
-import { drawTotals } from '../../utils/canvas/drawTotals';
+import { exportELDLogPDF } from '../../utils/pdfExporter';
 import styles from './ELDLogSheet.module.css';
 
 const ELDLogSheet = ({ dayData }) => {
@@ -27,7 +26,6 @@ const ELDLogSheet = ({ dayData }) => {
 
     if (dayData) {
       drawGrid(ctx, dayData);
-      
       if (dayData.time_blocks) {
         drawBlocks(ctx, dayData.time_blocks);
       }
@@ -45,15 +43,17 @@ const ELDLogSheet = ({ dayData }) => {
         </div>
         <div className={styles.headerBlock}>
           <span className={styles.headerLabel}>TOTAL DRIVING</span>
-          <span className={styles.headerValue}>{dayData.total_miles || 620} miles</span>
+          <span className={styles.headerValue}>{dayData.total_miles || 0} miles</span>
         </div>
         <div className={styles.headerBlock}>
           <span className={styles.headerLabel}>EQUIPMENT</span>
           <span className={styles.headerValue}>TRK-01 / TRL-01</span>
         </div>
         <div className={styles.headerBlock}>
-          <span className={styles.headerLabel}>CARRIER</span>
-          <span className={styles.headerValue}>Spotter Logistics</span>
+          <button onClick={() => exportELDLogPDF(dayData, canvasRef.current)} className={styles.pdfButton}>
+            <span className="material-symbols-outlined">download</span>
+            Export PDF
+          </button>
         </div>
       </div>
       
@@ -68,9 +68,7 @@ const ELDLogSheet = ({ dayData }) => {
             {(dayData.remarks || []).map((rem, idx) => (
               <div key={idx} className={styles.remarkRow}>
                 <span className={styles.remarkTime}>{rem.time_label}</span>
-                <span className={styles.remarkText}>
-                  {rem.location} - {rem.activity}
-                </span>
+                <span className={styles.remarkText}>{rem.location} - {rem.activity}</span>
               </div>
             ))}
           </div>

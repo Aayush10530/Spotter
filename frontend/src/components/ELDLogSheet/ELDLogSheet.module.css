@@ -139,3 +139,34 @@
 .recapTable tr:last-child {
   background-color: var(--color-surface-container-lowest);
 }
+
+.pdfButton {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  border: none;
+  border-radius: var(--border-radius-lg);
+  padding: 8px 16px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.pdfButton:hover {
+  background-color: var(--color-primary-container);
+  color: var(--color-on-primary-container);
+}
+
+.pdfButton:active {
+  transform: scale(0.97);
+}
+
+.pdfButton .material-symbols-outlined {
+  font-size: 18px;
+}
+
