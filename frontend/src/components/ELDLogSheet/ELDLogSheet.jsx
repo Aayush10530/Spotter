@@ -4,7 +4,7 @@ import { drawBlocks } from '../../utils/canvas/drawBlocks';
 import { exportELDLogPDF } from '../../utils/pdfExporter';
 import styles from './ELDLogSheet.module.css';
 
-const ELDLogSheet = ({ dayData, theme }) => {
+const ELDLogSheet = ({ dayData }) => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const ELDLogSheet = ({ dayData, theme }) => {
         drawBlocks(ctx, dayData.time_blocks);
       }
     }
-  }, [dayData, theme]);
+  }, [dayData]);
 
   if (!dayData) return null;
 

@@ -105,7 +105,7 @@ function TripPlanner() {
                     </button>
                   ))}
                 </div>
-                {activeDayData && <ELDLogSheet dayData={activeDayData} theme={theme} />}
+                {activeDayData && <ELDLogSheet dayData={activeDayData} />}
               </div>
             </div>
           )}
