@@ -21,7 +21,7 @@ export const drawGrid = (ctx, dayData) => {
     const { top, bottom } = ROW_BOUNDARIES[status];
     
     if (i % 2 === 0) {
-      ctx.fillStyle = rootStyles.getPropertyValue('--color-surface').trim() || '#fdfdfb';
+      ctx.fillStyle = rootStyles.getPropertyValue('--color-surface-container').trim() || '#f6f4eb';
       ctx.fillRect(GRID_LEFT, top, GRID_RIGHT - GRID_LEFT, bottom - top);
     }
     
