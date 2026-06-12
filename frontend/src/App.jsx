@@ -12,6 +12,7 @@ import StopTimeline from './components/StopTimeline/StopTimeline';
 import SavedTrips from './components/SavedTrips/SavedTrips';
 import Login from './components/Auth/Login';
 import Signup from './components/Auth/Signup';
+import UserIcon from './components/UserIcon/UserIcon';
 import './App.css';
 
 function TripPlanner() {
@@ -69,8 +70,14 @@ function TripPlanner() {
             </div>
           ) : (
             <div className="auth-buttons">
-              <button className="nav-button login-btn" onClick={() => setIsLoginOpen(true)}>Login</button>
-              <button className="nav-button signup-btn" onClick={() => setIsSignupOpen(true)}>Sign Up</button>
+              <button 
+                className="nav-button" 
+                onClick={() => setIsLoginOpen(true)}
+                title="Login / Sign Up"
+                style={{ padding: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+              >
+                <UserIcon width={24} height={24} />
+              </button>
             </div>
           )}
           <button className="nav-button theme-toggle" onClick={() => setTheme(prev => prev === 'light' ? 'dark' : 'light')}>
