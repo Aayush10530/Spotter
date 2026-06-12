@@ -1,5 +1,6 @@
 UI/
 *.md
+!README.md
 .gemini/
 venv/
 .env
