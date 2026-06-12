@@ -1,4 +1,4 @@
-.stop-timeline-container {
+.stopTimelineContainer {
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-lg);
@@ -8,7 +8,7 @@
   gap: 24px;
 }
 
-.stop-timeline-title {
+.stopTimelineTitle {
   font-family: var(--font-body);
   font-size: 18px;
   font-weight: 500;
@@ -17,14 +17,14 @@
   padding-bottom: 8px;
 }
 
-.timeline-wrapper {
+.timelineWrapper {
   position: relative;
   padding-left: 24px;
   padding-top: 8px;
   padding-bottom: 8px;
 }
 
-.timeline-line {
+.timelineLine {
   position: absolute;
   left: 11px;
   top: 16px;
@@ -33,7 +33,7 @@
   background-color: var(--color-outline-variant);
 }
 
-.timeline-item {
+.timelineItem {
   position: relative;
   z-index: 10;
   display: flex;
@@ -42,11 +42,11 @@
   margin-bottom: 24px;
 }
 
-.timeline-item:last-child {
+.timelineItem:last-child {
   margin-bottom: 0;
 }
 
-.timeline-icon-wrapper {
+.timelineIconWrapper {
   width: 24px;
   height: 24px;
   border-radius: 50%;
@@ -57,29 +57,29 @@
   margin-left: -12px; /* Pull left to align center with line */
 }
 
-.timeline-icon-wrapper.start { background-color: var(--color-primary); color: var(--color-on-primary); }
-.timeline-icon-wrapper.pickup { background-color: var(--color-secondary); color: var(--color-on-secondary); }
-.timeline-icon-wrapper.dropoff { background-color: var(--color-error); color: var(--color-on-error); }
-.timeline-icon-wrapper.fuel { background-color: #e6b800; color: #000000; }
-.timeline-icon-wrapper.rest { background-color: var(--color-surface-container-high); color: var(--color-on-surface-variant); border: 1px solid var(--color-outline-variant); }
-.timeline-icon-wrapper.default { background-color: var(--color-primary-container); color: var(--color-on-primary-container); }
+.timelineIconWrapper.start { background-color: var(--color-primary); color: var(--color-on-primary); }
+.timelineIconWrapper.pickup { background-color: var(--color-secondary); color: var(--color-on-primary); }
+.timelineIconWrapper.dropoff { background-color: var(--color-error); color: var(--color-on-primary); }
+.timelineIconWrapper.fuel { background-color: #e6b800; color: #000000; }
+.timelineIconWrapper.rest { background-color: var(--color-surface-container-high); color: var(--color-on-surface-variant); border: 1px solid var(--color-outline-variant); }
+.timelineIconWrapper.default { background-color: var(--color-primary-container); color: var(--color-on-primary-container); }
 
-.timeline-icon {
+.timelineIcon {
   font-size: 14px;
 }
 
-.timeline-content {
+.timelineContent {
   display: flex;
   flex-direction: column;
 }
 
-.timeline-label {
+.timelineLabel {
   font-size: 12px;
   font-weight: 600;
   color: var(--color-on-surface);
 }
 
-.timeline-meta {
+.timelineMeta {
   font-family: var(--font-mono);
   font-size: 13px;
   color: var(--color-on-surface-variant);

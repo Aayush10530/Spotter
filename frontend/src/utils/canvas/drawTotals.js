@@ -1,41 +1,40 @@
-import { COLORS } from '../colorMap';
+import { ROW_BOUNDARIES } from './timeCoords';
 
-export const drawTotals = (ctx, logs, width, height, margin) => {
-  if (!logs || logs.length === 0) return;
-
-  const rowHeight = (height - margin.top - margin.bottom) / 4;
-  
-  // Calculate totals
-  const totals = {
-    OFF_DUTY: 0,
-    SLEEPER: 0,
-    DRIVING: 0,
-    ON_DUTY: 0
-  };
-
-  logs.forEach(log => {
-    if (totals[log.status] !== undefined) {
-      totals[log.status] += log.duration_minutes;
-    }
-  });
-
-  const formatHours = (minutes) => {
-    const hrs = Math.floor(minutes / 60);
-    const mins = minutes % 60;
-    return `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
-  };
-
-  ctx.fillStyle = COLORS.textMain;
-  ctx.font = '12px Inter, sans-serif';
+export const drawTotals = (ctx, dayData) => {
+  const totals = dayData?.totals || {};
+  ctx.fillStyle = '#1c1c17';
+  ctx.font = 'bold 11px Inter, sans-serif';
   ctx.textAlign = 'right';
   ctx.textBaseline = 'middle';
 
-  // Draw in the right margin
-  const textX = width - 10;
-
-  const order = ['OFF_DUTY', 'SLEEPER', 'DRIVING', 'ON_DUTY'];
-  order.forEach((status, i) => {
-    const y = margin.top + i * rowHeight + rowHeight / 2;
-    ctx.fillText(formatHours(totals[status]), textX, y);
+  const order = ['off_duty', 'sleeper_berth', 'driving', 'on_duty_nd'];
+  order.forEach((status) => {
+    const { center } = ROW_BOUNDARIES[status];
+    const val = (totals[status] || 0).toFixed(1);
+    ctx.fillText(val, 845, center);
   });
+
+  ctx.textAlign = 'left';
+  ctx.font = '12px Inter, sans-serif';
+  const bottomY = 480;
+
+  const summaryText = 
+    `OFF: ${(totals.off_duty || 0).toFixed(1)} hr   |   ` +
+    `SB: ${(totals.sleeper_berth || 0).toFixed(1)} hr   |   ` +
+    `DRIVE: ${(totals.driving || 0).toFixed(1)} hr   |   ` +
+    `ON: ${(totals.on_duty_nd || 0).toFixed(1)} hr   |   ` +
+    `TOTAL: 24.0 hr`;
+  
+  ctx.fillText(summaryText, 80, bottomY);
+
+  const workingVal = totals.total_working || 0;
+  const workingText = `Working: ${workingVal.toFixed(1)} hr`;
+  ctx.textAlign = 'right';
+  ctx.fillText(workingText, 820, bottomY);
+
+  ctx.strokeStyle = '#ba1a1a'; 
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.ellipse(775, bottomY, 50, 12, 0, 0, 2 * Math.PI);
+  ctx.stroke();
 };

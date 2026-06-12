@@ -6,20 +6,7 @@ class RoutingError(ValueError):
     pass
 
 def get_route(origin: dict, destination: dict) -> dict:
-    """
-    Get routing information between two coordinates.
     
-    Args:
-        origin: {"name": str, "lat": float, "lng": float}
-        destination: {"name": str, "lat": float, "lng": float}
-        
-    Returns:
-        {
-            "distance_miles": float,
-            "duration_hours": float,
-            "polyline": [[lat, lng], ...]
-        }
-    """
     api_key = os.getenv('ORS_API_KEY')
     if not api_key:
         raise RoutingError("ORS_API_KEY environment variable is not set")
@@ -56,7 +43,6 @@ def get_route(origin: dict, destination: dict) -> dict:
         distance_meters = segments[0]['distance']
         duration_seconds = segments[0]['duration']
         
-        # Convert coordinates from [lng, lat] to [lat, lng]
         ors_coords = feature['geometry']['coordinates']
         polyline = [[coord[1], coord[0]] for coord in ors_coords]
         

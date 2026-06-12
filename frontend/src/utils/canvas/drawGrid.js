@@ -1,85 +1,73 @@
-import { COLORS } from '../colorMap';
+import { 
+  GRID_LEFT, GRID_RIGHT, GRID_TOP, GRID_BOTTOM,
+  ROW_BOUNDARIES, STATUS_LABELS, hourToX 
+} from './timeCoords';
 
-export const drawGrid = (ctx, width, height, margin) => {
-  const rowHeight = (height - margin.top - margin.bottom) / 4;
-  const colWidth = (width - margin.left - margin.right) / 24;
-
+export const drawGrid = (ctx, dayData) => {
+  ctx.strokeStyle = '#c2c6d2';
+  ctx.fillStyle = '#424751';
   ctx.lineWidth = 1;
-  ctx.strokeStyle = COLORS.gridLines;
-  ctx.fillStyle = COLORS.gridLabels;
-  ctx.font = '12px Inter, sans-serif';
-  ctx.textAlign = 'right';
-  ctx.textBaseline = 'middle';
+  ctx.font = '11px Inter, sans-serif';
 
-  // Draw row backgrounds
-  // Row 1: OFF
-  // Row 2: SB
-  // Row 3: D (driving usually gets a subtle bg in the Stitch design)
-  ctx.fillStyle = COLORS.headerRow;
-  ctx.fillRect(0, margin.top + rowHeight * 2, width, rowHeight);
+  ctx.fillStyle = '#f6f4eb';
+  ctx.fillRect(10, 10, 840, 100);
+  ctx.strokeRect(10, 10, 840, 100);
 
-  // Draw 4 rows
-  const labels = ['OFF', 'SB', 'D', 'ON'];
-  for (let i = 0; i < 4; i++) {
-    const y = margin.top + i * rowHeight;
+  ctx.fillStyle = '#1c1c17';
+  ctx.textAlign = 'left';
+  ctx.font = 'bold 11px Inter, sans-serif';
+  ctx.fillText(`DATE: ${dayData?.date_label || 'N/A'}`, 25, 45);
+  ctx.fillText(`TOTAL MILES: ${dayData?.total_miles || 0} mi`, 25, 80);
+  ctx.fillText(`CARRIER: SpotterAI Logistics`, 250, 45);
+  ctx.fillText(`TRACTOR #: CMV-7092`, 250, 80);
+  
+  ctx.fillText(`DRIVER SIGNATURE: _______________________`, 500, 45);
+  ctx.fillText(`CO-DRIVER: N/A`, 500, 80);
+
+  ctx.fillStyle = '#424751';
+  Object.keys(ROW_BOUNDARIES).forEach((status, i) => {
+    const { top, bottom } = ROW_BOUNDARIES[status];
+    
+    if (i % 2 === 0) {
+      ctx.fillStyle = '#fdfdfb';
+      ctx.fillRect(GRID_LEFT, top, GRID_RIGHT - GRID_LEFT, bottom - top);
+    }
+    
     ctx.beginPath();
-    ctx.moveTo(margin.left, y);
-    ctx.lineTo(width - margin.right, y);
+    ctx.moveTo(GRID_LEFT, top);
+    ctx.lineTo(GRID_RIGHT, top);
+    ctx.moveTo(GRID_LEFT, bottom);
+    ctx.lineTo(GRID_RIGHT, bottom);
     ctx.stroke();
 
-    // Row Labels
-    ctx.fillStyle = COLORS.gridLabels;
-    ctx.fillText(labels[i], margin.left - 10, y + rowHeight / 2);
-  }
-  // Bottom line
-  ctx.beginPath();
-  ctx.moveTo(margin.left, height - margin.bottom);
-  ctx.lineTo(width - margin.right, height - margin.bottom);
-  ctx.stroke();
+    ctx.fillStyle = '#1c1c17';
+    ctx.font = 'bold 11px Inter, sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText(STATUS_LABELS[status], GRID_LEFT - 10, (top + bottom) / 2 + 4);
+  });
 
-  // Draw 24 columns (Hours)
   ctx.textAlign = 'center';
-  ctx.textBaseline = 'bottom';
-  for (let i = 0; i <= 24; i++) {
-    const x = margin.left + i * colWidth;
-    
-    // Draw vertical lines
+  ctx.font = '10px Inter, sans-serif';
+  for (let h = 0; h <= 24; h++) {
+    const x = hourToX(h);
+    ctx.lineWidth = (h === 0 || h === 12 || h === 24) ? 2 : 1;
     ctx.beginPath();
-    ctx.moveTo(x, margin.top);
-    ctx.lineTo(x, height - margin.bottom);
-    
-    // Thicker lines for Noon and Midnight (0, 12, 24)
-    if (i === 0 || i === 12 || i === 24) {
-      ctx.lineWidth = 2;
-    } else {
-      ctx.lineWidth = 1;
-    }
-    
-    // Dashed lines for quarter hours could be added, but skipping for simplicity
+    ctx.moveTo(x, GRID_TOP);
+    ctx.lineTo(x, GRID_BOTTOM);
     ctx.stroke();
 
-    // Hour Labels above grid
-    if (i < 24) {
-      let label = '';
-      if (i === 0) label = 'M';
-      else if (i === 12) label = 'N';
-      else label = (i > 12 ? i - 12 : i).toString();
-      
-      ctx.fillText(label, x, margin.top - 5);
-    } else if (i === 24) {
-      ctx.fillText('M', x, margin.top - 5);
-    }
-  }
+    let lbl = h === 0 || h === 24 ? 'M' : h === 12 ? 'N' : (h > 12 ? h - 12 : h).toString();
+    ctx.fillText(lbl, x, GRID_TOP - 8);
 
-  // Draw quarter-hour tick marks on top line
-  ctx.lineWidth = 1;
-  for (let i = 0; i < 24; i++) {
-    for (let q = 1; q < 4; q++) {
-      const qx = margin.left + i * colWidth + q * (colWidth / 4);
-      ctx.beginPath();
-      ctx.moveTo(qx, margin.top);
-      ctx.lineTo(qx, margin.top + 4); // Tick down
-      ctx.stroke();
+    if (h < 24) {
+      ctx.lineWidth = 1;
+      for (let q = 1; q <= 3; q++) {
+        const qx = x + q * (740 / 96);
+        ctx.beginPath();
+        ctx.moveTo(qx, GRID_TOP);
+        ctx.lineTo(qx, GRID_TOP + 4);
+        ctx.stroke();
+      }
     }
   }
 };

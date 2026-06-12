@@ -1,4 +1,4 @@
-.hos-compliance-container {
+.hosComplianceContainer {
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-lg);
@@ -8,7 +8,7 @@
   gap: 24px;
 }
 
-.hos-compliance-title {
+.hosComplianceTitle {
   font-family: var(--font-body);
   font-size: 18px;
   font-weight: 500;
@@ -17,13 +17,13 @@
   padding-bottom: 8px;
 }
 
-.hos-compliance-list {
+.hosComplianceList {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.hos-status-item {
+.hosStatusItem {
   height: 56px;
   display: flex;
   align-items: center;
@@ -33,54 +33,54 @@
   border-radius: var(--border-radius-lg);
 }
 
-.hos-status-item.compliant {
+.hosStatusItem.compliant {
   background-color: var(--color-surface-container-lowest);
 }
 
-.hos-status-item.violation {
+.hosStatusItem.violation {
   background-color: var(--color-error-container, #ffdad6);
   border-color: var(--color-error);
 }
 
-.hos-icon {
+.hosIcon {
   font-size: 24px;
 }
 
-.hos-icon.compliant {
+.hosIcon.compliant {
   color: var(--color-secondary);
 }
 
-.hos-icon.violation {
+.hosIcon.violation {
   color: var(--color-error);
 }
 
-.hos-details {
+.hosDetails {
   display: flex;
   flex-direction: column;
 }
 
-.hos-label {
+.hosLabel {
   font-size: 12px;
   font-weight: 600;
 }
 
-.hos-label.compliant {
+.hosLabel.compliant {
   color: var(--color-on-surface);
 }
 
-.hos-label.violation {
+.hosLabel.violation {
   color: var(--color-on-error-container, #93000a);
 }
 
-.hos-value {
+.hosValue {
   font-family: var(--font-mono);
   font-size: 13px;
 }
 
-.hos-value.compliant {
+.hosValue.compliant {
   color: var(--color-on-surface-variant);
 }
 
-.hos-value.violation {
+.hosValue.violation {
   color: var(--color-error);
 }

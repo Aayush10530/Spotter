@@ -1,5 +1,5 @@
 import React from 'react';
-import './HOSCompliance.css';
+import styles from './HOSCompliance.module.css';
 
 const HOSCompliance = ({ summary }) => {
   if (!summary) return null;
@@ -11,31 +11,31 @@ const HOSCompliance = ({ summary }) => {
   const hasShiftViolation = shiftViolations && shiftViolations.length > 0;
 
   return (
-    <div className="hos-compliance-container">
-      <h2 className="hos-compliance-title">HOS Compliance Status</h2>
+    <div className={styles.hosComplianceContainer}>
+      <h2 className={styles.hosComplianceTitle}>HOS Compliance Status</h2>
       
-      <div className="hos-compliance-list">
+      <div className={styles.hosComplianceList}>
         {/* 11-Hour Driving Limit */}
-        <div className={`hos-status-item ${hasDrivingViolation ? 'violation' : 'compliant'}`}>
-          <span className={`material-symbols-outlined hos-icon ${hasDrivingViolation ? 'violation' : 'compliant'}`} style={{ fontVariationSettings: "'FILL' 1" }}>
+        <div className={`${styles.hosStatusItem} ${hasDrivingViolation ? styles.violation : styles.compliant}`}>
+          <span className={`material-symbols-outlined ${styles.hosIcon} ${hasDrivingViolation ? styles.violation : styles.compliant}`} style={{ fontVariationSettings: "'FILL' 1" }}>
             {hasDrivingViolation ? 'warning' : 'check_circle'}
           </span>
-          <div className="hos-details">
-            <span className={`hos-label ${hasDrivingViolation ? 'violation' : 'compliant'}`}>11-Hour Driving Limit</span>
-            <span className={`hos-value ${hasDrivingViolation ? 'violation' : 'compliant'}`}>
+          <div className={styles.hosDetails}>
+            <span className={`${styles.hosLabel} ${hasDrivingViolation ? styles.violation : styles.compliant}`}>11-Hour Driving Limit</span>
+            <span className={`${styles.hosValue} ${hasDrivingViolation ? styles.violation : styles.compliant}`}>
               {hasDrivingViolation ? 'Violation Detected' : 'Compliant'}
             </span>
           </div>
         </div>
 
-        {/* 14-Hour Shift Limit */}
-        <div className={`hos-status-item ${hasShiftViolation ? 'violation' : 'compliant'}`}>
-          <span className={`material-symbols-outlined hos-icon ${hasShiftViolation ? 'violation' : 'compliant'}`} style={{ fontVariationSettings: "'FILL' 1" }}>
+        {}
+        <div className={`${styles.hosStatusItem} ${hasShiftViolation ? styles.violation : styles.compliant}`}>
+          <span className={`material-symbols-outlined ${styles.hosIcon} ${hasShiftViolation ? styles.violation : styles.compliant}`} style={{ fontVariationSettings: "'FILL' 1" }}>
             {hasShiftViolation ? 'warning' : 'check_circle'}
           </span>
-          <div className="hos-details">
-            <span className={`hos-label ${hasShiftViolation ? 'violation' : 'compliant'}`}>14-Hour Shift Limit</span>
-            <span className={`hos-value ${hasShiftViolation ? 'violation' : 'compliant'}`}>
+          <div className={styles.hosDetails}>
+            <span className={`${styles.hosLabel} ${hasShiftViolation ? styles.violation : styles.compliant}`}>14-Hour Shift Limit</span>
+            <span className={`${styles.hosValue} ${hasShiftViolation ? styles.violation : styles.compliant}`}>
               {hasShiftViolation ? 'Violation Detected' : 'Compliant'}
             </span>
           </div>

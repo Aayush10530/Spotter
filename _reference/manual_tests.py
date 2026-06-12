@@ -1,45 +1,32 @@
-# _reference/manual_tests.py
-# Run after every backend file is built
-# python _reference/manual_tests.py
-
 import sys
 import os
 
-# Point to your backend folder
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'backend'))
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
 
 import django
 django.setup()
 
-# ─────────────────────────────────────────────
-# PHASE 3 TESTS — geocoding.py
-# ─────────────────────────────────────────────
-
 print("\n=== PHASE 3: geocoding.py ===")
 
 try:
     from trip_planner.services.geocoding import geocode_location
 
-    # Test 1: Chicago
     chicago = geocode_location("Chicago, IL")
     assert 41.0 < chicago['lat'] < 42.5, f"Bad lat: {chicago['lat']}"
     assert -88.5 < chicago['lng'] < -87.0, f"Bad lng: {chicago['lng']}"
     print(f"  [PASS] Chicago: {chicago}")
 
-    # Test 2: Dallas
     dallas = geocode_location("Dallas, TX")
     assert 32.0 < dallas['lat'] < 33.5, f"Bad lat: {dallas['lat']}"
     assert -97.5 < dallas['lng'] < -96.0, f"Bad lng: {dallas['lng']}"
     print(f"  [PASS] Dallas: {dallas}")
 
-    # Test 3: Atlanta
     atlanta = geocode_location("Atlanta, GA")
     assert 33.0 < atlanta['lat'] < 34.5, f"Bad lat: {atlanta['lat']}"
     assert -85.0 < atlanta['lng'] < -84.0, f"Bad lng: {atlanta['lng']}"
     print(f"  [PASS] Atlanta: {atlanta}")
 
-    # Test 4: Invalid city
     try:
         bad = geocode_location("NotARealCity, XX")
         print(f"  [FAIL] Should have raised ValueError for invalid city")
@@ -55,12 +42,6 @@ except AssertionError as e:
 except Exception as e:
     print(f"  [FAIL] Unexpected error: {e}")
 
-
-# ─────────────────────────────────────────────
-# PHASE 4 TESTS — routing.py
-# ADD AFTER routing.py IS BUILT
-# ─────────────────────────────────────────────
-
 print("\n=== PHASE 4: routing.py ===")
 
 from trip_planner.services.routing import get_route
@@ -73,14 +54,6 @@ assert len(route['polyline']) > 10
 print(f"  [PASS] Chicago->Dallas: {route['distance_miles']:.0f} mi")
 print(f"  [PASS] Duration: {route['duration_hours']:.1f} hrs")
 print("  PHASE 4 PASSED\n")
-
-
-# ─────────────────────────────────────────────
-# PHASE 5 TESTS — hos_calculator.py
-# ADD AFTER hos_calculator.py IS BUILT
-# ─────────────────────────────────────────────
-
-# Uncomment when hos_calculator.py is built
 
 print("\n=== PHASE 5: hos_calculator.py ===")
 from trip_planner.services.hos_calculator import calculate_trip
@@ -102,7 +75,6 @@ result = calculate_trip(
     cycle_hours_used=22
 )
 
-# Validate every day totals 24 hours
 for day in result['days']:
     total = sum(
         b['end_hour'] - b['start_hour']
@@ -115,7 +87,6 @@ for day in result['days']:
 print(f"  [PASS] Total days: {result['summary']['total_days']}")
 print(f"  [PASS] Total miles: {result['summary']['total_miles']}")
 print("  PHASE 5 PASSED\n")
-
 
 print("\n=== PHASE 6: log_builder.py ===")
 from trip_planner.services.log_builder import LogSheetBuilder
@@ -166,14 +137,12 @@ from trip_planner.views import TripPlanView, HealthView
 
 factory = APIRequestFactory()
 
-# Test Health
 request = factory.get('/api/v1/health/')
 view = HealthView.as_view()
 response = view(request)
 assert response.status_code == 200
 print("  [PASS] GET /api/v1/health/ -> 200 OK")
 
-# Test Trip Plan
 request = factory.post('/api/v1/plan-trip/', data_valid, format='json')
 view = TripPlanView.as_view()
 response = view(request)

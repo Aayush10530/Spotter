@@ -19,7 +19,6 @@ try:
         for w in waypoints:
             print(f"- {w.get('type')}: {w.get('name')} at {w.get('time_label')} (Day {w.get('day')})")
         
-        # Check for NaNs or errors
         print("\nSummary:")
         print(json.dumps(data.get('summary'), indent=2))
         print("Test passed successfully.")

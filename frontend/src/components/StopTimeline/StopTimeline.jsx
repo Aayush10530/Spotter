@@ -1,5 +1,5 @@
 import React from 'react';
-import './StopTimeline.css';
+import styles from './StopTimeline.module.css';
 
 const StopTimeline = ({ waypoints }) => {
   if (!waypoints || waypoints.length === 0) return null;
@@ -17,43 +17,38 @@ const StopTimeline = ({ waypoints }) => {
 
   const getBgClass = (type) => {
     switch(type) {
-      case 'start': return 'start';
-      case 'pickup': return 'pickup';
-      case 'dropoff': return 'dropoff';
-      case 'fuel': return 'fuel';
-      case 'rest': return 'rest';
-      default: return 'default';
+      case 'start': return styles.start;
+      case 'pickup': return styles.pickup;
+      case 'dropoff': return styles.dropoff;
+      case 'fuel': return styles.fuel;
+      case 'rest': return styles.rest;
+      default: return styles.default;
     }
   };
 
   return (
-    <div className="stop-timeline-container">
-      <h2 className="stop-timeline-title">Stop Timeline</h2>
+    <div className={styles.stopTimelineContainer}>
+      <h2 className={styles.stopTimelineTitle}>Stop Timeline</h2>
       
-      <div className="timeline-wrapper">
-        {/* Vertical connecting line */}
-        <div className="timeline-line"></div>
+      <div className={styles.timelineWrapper}>
+        <div className={styles.timelineLine}></div>
         
         {waypoints.map((wp, idx) => (
-          <div key={idx} className="timeline-item">
-            
-            {/* Icon */}
-            <div className={`timeline-icon-wrapper ${getBgClass(wp.type)}`}>
-              <span className="material-symbols-outlined timeline-icon" style={{ fontVariationSettings: "'FILL' 1" }}>
+          <div key={idx} className={styles.timelineItem}>
+            <div className={`${styles.timelineIconWrapper} ${getBgClass(wp.type)}`}>
+              <span className={`material-symbols-outlined ${styles.timelineIcon}`} style={{ fontVariationSettings: "'FILL' 1" }}>
                 {getIcon(wp.type)}
               </span>
             </div>
             
-            {/* Text content */}
-            <div className="timeline-content">
-              <span className="timeline-label">
+            <div className={styles.timelineContent}>
+              <span className={styles.timelineLabel}>
                 {wp.activity}: {wp.name.split(',')[0]}
               </span>
-              <span className="timeline-meta">
+              <span className={styles.timelineMeta}>
                 Day {wp.day} - {wp.time_label || 'Time not set'}
               </span>
             </div>
-            
           </div>
         ))}
       </div>

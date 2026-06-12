@@ -1,4 +1,4 @@
-.error-container {
+.errorContainer {
   background-color: #ffdad6;
   color: #ba1a1a;
   border-radius: var(--border-radius-lg, 8px);
@@ -16,7 +16,7 @@
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-.error-icon {
+.errorIcon {
   font-size: 32px !important;
   color: #ba1a1a;
   flex-shrink: 0;
@@ -29,25 +29,25 @@
   75% { transform: translateX(4px) rotate(5deg); }
 }
 
-.error-content {
+.errorContent {
   flex: 1;
 }
 
-.error-title {
+.errorTitle {
   margin: 0 0 8px 0;
   font-size: 20px;
   font-weight: 600;
   color: #ba1a1a;
 }
 
-.error-message {
+.errorMessage {
   margin: 0 0 20px 0;
   font-size: 15px;
   line-height: 1.5;
   color: #410002;
 }
 
-.error-dismiss-btn {
+.errorDismissBtn {
   background-color: #ba1a1a;
   color: #ffffff;
   border: none;
@@ -62,12 +62,12 @@
   gap: 8px;
 }
 
-.error-dismiss-btn:hover {
+.errorDismissBtn:hover {
   background-color: #93000a;
   box-shadow: 0 2px 6px rgba(186, 26, 26, 0.3);
   transform: translateY(-1px);
 }
 
-.error-dismiss-btn:active {
+.errorDismissBtn:active {
   transform: translateY(0);
 }

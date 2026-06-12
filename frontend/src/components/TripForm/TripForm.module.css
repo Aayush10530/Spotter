@@ -1,4 +1,4 @@
-.trip-form-container {
+.tripFormContainer {
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -10,36 +10,36 @@
   padding: var(--margin);
 }
 
-.trip-form-header {
+.tripFormHeader {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.trip-form-title {
+.tripFormTitle {
   font-size: 22px;
   font-weight: 500;
   line-height: 1.2;
 }
 
-.trip-form-subtitle {
+.tripFormSubtitle {
   color: var(--color-on-surface-variant);
   font-size: 14px;
 }
 
-.trip-form {
+.tripForm {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.form-group {
+.formGroup {
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
 
-.form-label {
+.formLabel {
   font-size: 11px;
   font-weight: 600;
   color: var(--color-on-surface);
@@ -47,13 +47,13 @@
   letter-spacing: 0.05em;
 }
 
-.input-wrapper {
+.inputWrapper {
   position: relative;
   display: flex;
   align-items: center;
 }
 
-.input-icon {
+.inputIcon {
   position: absolute;
   left: 12px;
   font-size: 20px;
@@ -62,10 +62,15 @@
   z-index: 2;
 }
 
-.input-icon.icon-pickup { color: var(--color-secondary); }
-.input-icon.icon-dropoff { color: var(--color-error); }
+.iconPickup {
+  color: var(--color-secondary);
+}
 
-.form-input {
+.iconDropoff {
+  color: var(--color-error);
+}
+
+.formInput {
   width: 100%;
   height: var(--input-height);
   padding: 0 12px 0 40px;
@@ -78,25 +83,25 @@
   outline: none;
 }
 
-.form-input.font-mono {
+.formInput.fontMono {
   font-family: var(--font-mono);
   font-size: 13px;
 }
 
-.form-input::placeholder {
+.formInput::placeholder {
   color: var(--color-outline-variant);
 }
 
-.form-input:focus {
+.formInput:focus {
   border-color: var(--color-primary);
   box-shadow: 0 0 0 1px var(--color-primary);
 }
 
-.form-input:focus + .input-icon {
+.formInput:focus + .inputIcon {
   color: var(--color-primary);
 }
 
-.submit-button {
+.submitButton {
   margin-top: 8px;
   height: var(--input-height);
   background-color: var(--color-primary);
@@ -113,23 +118,23 @@
   transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
 }
 
-.submit-button:hover:not(:disabled) {
+.submitButton:hover:not(:disabled) {
   background-color: var(--color-primary-container);
   color: var(--color-on-primary-container);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.submit-button:active:not(:disabled) {
+.submitButton:active:not(:disabled) {
   transform: scale(0.98);
   box-shadow: none;
 }
 
-.submit-button:disabled {
+.submitButton:disabled {
   opacity: 0.7;
   cursor: not-allowed;
 }
 
-.submit-button .material-symbols-outlined {
+.submitButton .materialSymbolsOutlined {
   font-size: 18px;
 }
 
@@ -137,6 +142,6 @@
   to { transform: rotate(360deg); }
 }
 
-.animate-spin {
+.animateSpin {
   animation: spin 1s linear infinite;
 }

@@ -1,10 +1,5 @@
 def validate_day(day: dict) -> bool:
-    """
-    Validates that all time blocks in a day
-    sum to exactly 24.0 hours.
-    Raises ValueError if they do not.
-    Call this before returning any day in the output.
-    """
+    
     total = sum(
         block['end_hour'] - block['start_hour']
         for block in day['time_blocks']
@@ -17,21 +12,8 @@ def validate_day(day: dict) -> bool:
         )
     return True
 
-
 def split_block_at_midnight(block: dict, day_number: int) -> list:
-    """
-    If a block crosses midnight (end_hour > 24),
-    split it into two blocks:
-      - First block: start_hour to 24.0 (current day)
-      - Second block: 0.0 to remainder (next day)
     
-    Example:
-      Input:  {start_hour: 18.5, end_hour: 28.5}
-      Output: [
-        {start_hour: 18.5, end_hour: 24.0},  # day N
-        {start_hour: 0.0,  end_hour: 4.5}    # day N+1
-      ]
-    """
     if block['end_hour'] <= 24.0:
         return [block]
     
@@ -200,10 +182,7 @@ class HOSSimulator:
                 continue
 
     def end_trip(self, location: str):
-        """
-        Pads the final day to exactly 24 hours with off_duty
-        then finalizes the last day's log sheet.
-        """
+        
         remaining = (24.0 - self.current_time) % 24.0
         if remaining > 0.01:
             self.add_block(

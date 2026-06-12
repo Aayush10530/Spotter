@@ -1,4 +1,4 @@
-.eld-logsheet-container {
+.eldLogsheetContainer {
   background-color: var(--color-surface-container-lowest);
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-lg);
@@ -6,20 +6,20 @@
   overflow-x: auto;
 }
 
-.eld-header {
+.eldHeader {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
   margin-bottom: 16px;
-  min-width: 800px;
+  min-width: 860px;
 }
 
-.eld-header-left {
+.eldHeaderLeft {
   display: flex;
   flex-direction: column;
 }
 
-.eld-title {
+.eldTitle {
   font-family: var(--font-body);
   font-size: 18px;
   font-weight: 500;
@@ -27,30 +27,30 @@
   margin-bottom: 4px;
 }
 
-.eld-subtitle {
+.eldSubtitle {
   font-size: 14px;
   color: var(--color-on-surface-variant);
 }
 
-.eld-header-right {
+.eldHeaderRight {
   display: flex;
   flex-direction: column;
   text-align: right;
   gap: 4px;
 }
 
-.eld-meta {
+.eldMeta {
   font-family: var(--font-mono);
   font-size: 13px;
   color: var(--color-on-surface-variant);
 }
 
-.eld-canvas-wrapper {
-  min-width: 800px;
+.eldCanvasWrapper {
+  min-width: 860px;
   display: flex;
   justify-content: center;
 }
 
-.eld-canvas {
+.eldCanvas {
   display: block;
 }

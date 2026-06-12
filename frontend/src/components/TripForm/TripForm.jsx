@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import './TripForm.css';
+import styles from './TripForm.module.css';
+
+const FIELDS = [
+  { name: 'current_location', label: 'Current Location', icon: 'my_location', placeholder: 'City, State or ZIP' },
+  { name: 'pickup_location', label: 'Pickup Location', icon: 'location_on', iconStyle: 'pickup', placeholder: 'City, State or ZIP' },
+  { name: 'dropoff_location', label: 'Dropoff Location', icon: 'flag', iconStyle: 'dropoff', placeholder: 'City, State or ZIP' },
+  { name: 'current_cycle_used', label: 'Current Cycle Used (hrs)', icon: 'schedule', type: 'number', step: '0.5', min: '0', max: '70', placeholder: '0.0', mono: true }
+];
 
 const TripForm = ({ onPlanTrip, isLoading }) => {
   const [formData, setFormData] = useState({
@@ -11,110 +18,65 @@ const TripForm = ({ onPlanTrip, isLoading }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (isLoading) return;
     
-    const formattedData = {
+    onPlanTrip({
       current_location: formData.current_location,
       pickup_location: formData.pickup_location,
       dropoff_location: formData.dropoff_location,
       cycle_hours_used: parseFloat(formData.current_cycle_used || 0)
-    };
-    
-    onPlanTrip(formattedData);
+    });
   };
 
   return (
-    <div className="trip-form-container">
-      <header className="trip-form-header">
-        <h1 className="trip-form-title">Plan your trip</h1>
-        <p className="trip-form-subtitle">Enter your trip details to generate a route map and ELD-compliant daily logs.</p>
+    <div className={styles.tripFormContainer}>
+      <header className={styles.tripFormHeader}>
+        <h1 className={styles.tripFormTitle}>Plan your trip</h1>
+        <p className={styles.tripFormSubtitle}>Enter trip details to generate a route map and HOS logs.</p>
       </header>
 
-      <form onSubmit={handleSubmit} className="trip-form">
-        
-        <div className="form-group">
-          <label className="form-label">Current Location</label>
-          <div className="input-wrapper">
-            <span className="material-symbols-outlined input-icon">my_location</span>
-            <input 
-              required
-              name="current_location"
-              value={formData.current_location}
-              onChange={handleChange}
-              className="form-input" 
-              placeholder="City, State or ZIP" 
-              type="text" 
-            />
-          </div>
-        </div>
+      <form onSubmit={handleSubmit} className={styles.tripForm}>
+        {FIELDS.map((field) => {
+          let iconClass = styles.inputIcon;
+          if (field.iconStyle === 'pickup') iconClass += ` ${styles.iconPickup}`;
+          if (field.iconStyle === 'dropoff') iconClass += ` ${styles.iconDropoff}`;
 
-        <div className="form-group">
-          <label className="form-label">Pickup Location</label>
-          <div className="input-wrapper">
-            <span className="material-symbols-outlined input-icon icon-pickup">location_on</span>
-            <input 
-              required
-              name="pickup_location"
-              value={formData.pickup_location}
-              onChange={handleChange}
-              className="form-input" 
-              placeholder="City, State or ZIP" 
-              type="text" 
-            />
-          </div>
-        </div>
+          let inputClass = styles.formInput;
+          if (field.mono) inputClass += ` ${styles.fontMono}`;
 
-        <div className="form-group">
-          <label className="form-label">Dropoff Location</label>
-          <div className="input-wrapper">
-            <span className="material-symbols-outlined input-icon icon-dropoff">flag</span>
-            <input 
-              required
-              name="dropoff_location"
-              value={formData.dropoff_location}
-              onChange={handleChange}
-              className="form-input" 
-              placeholder="City, State or ZIP" 
-              type="text" 
-            />
-          </div>
-        </div>
+          return (
+            <div key={field.name} className={styles.formGroup}>
+              <label className={styles.formLabel}>{field.label}</label>
+              <div className={styles.inputWrapper}>
+                <span className={`material-symbols-outlined ${iconClass}`}>
+                  {field.icon}
+                </span>
+                <input
+                  required
+                  name={field.name}
+                  value={formData[field.name]}
+                  onChange={handleChange}
+                  className={inputClass}
+                  placeholder={field.placeholder}
+                  type={field.type || 'text'}
+                  step={field.step}
+                  min={field.min}
+                  max={field.max}
+                />
+              </div>
+            </div>
+          );
+        })}
 
-        <div className="form-group">
-          <label className="form-label">Current Cycle Used (hrs)</label>
-          <div className="input-wrapper">
-            <span className="material-symbols-outlined input-icon">schedule</span>
-            <input 
-              required
-              name="current_cycle_used"
-              value={formData.current_cycle_used}
-              onChange={handleChange}
-              className="form-input font-mono" 
-              type="number" 
-              step="0.5"
-              min="0"
-              max="70"
-              placeholder="0.0"
-            />
-          </div>
-        </div>
-
-        <button 
-          type="submit" 
-          disabled={isLoading}
-          className="submit-button"
-        >
+        <button type="submit" disabled={isLoading} className={styles.submitButton}>
           {isLoading ? (
             <>
-              <span className="material-symbols-outlined animate-spin">progress_activity</span>
+              <span className={`material-symbols-outlined ${styles.animateSpin}`}>progress_activity</span>
               CALCULATING...
             </>
           ) : (

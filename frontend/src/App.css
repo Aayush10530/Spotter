@@ -143,3 +143,77 @@
 .logs-section { display: flex; flex-direction: column; gap: var(--margin); margin-top: var(--margin); }
 .logs-title { font-size: 18px; font-weight: 500; border-bottom: 1px solid var(--color-border); padding-bottom: 8px; margin-bottom: 16px; }
 
+/* Custom layout classes to eliminate inline styling */
+.left-panel-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+.back-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  cursor: pointer;
+  padding: 8px 0;
+  fontSize: 14px;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+.back-button:hover {
+  opacity: 0.8;
+}
+
+.back-button .material-symbols-outlined {
+  font-size: 18px;
+}
+
+.error-wrapper {
+  padding: var(--margin);
+}
+
+.loading-wrapper {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Day Selector Pills tab bar styling */
+.day-pills-container {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 12px;
+}
+
+.day-pill {
+  padding: 8px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  background-color: var(--color-surface-container-low);
+  color: var(--color-on-surface-variant);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.day-pill:hover {
+  background-color: var(--color-surface-container-high);
+}
+
+.day-pill.active {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  border-color: var(--color-primary);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+

@@ -1,16 +1,9 @@
-"""
-HOS (Hours of Service) Constants
-Single source of truth for all FMCSA rules and trip assumptions.
-"""
-
-# Driving and Rest Limits
 MAX_DRIVING_HOURS = 11
 MAX_WINDOW_HOURS = 14
 MIN_REST_HOURS = 10
 BREAK_AFTER_HOURS = 8
 MAX_CYCLE_HOURS = 70
 
-# Trip and Stop Assumptions
 FUEL_INTERVAL_MILES = 1000
 PICKUP_DURATION_HOURS = 1.0
 DROPOFF_DURATION_HOURS = 1.0
@@ -18,7 +11,6 @@ FUEL_STOP_DURATION_HOURS = 0.5
 PRE_TRIP_DURATION_HOURS = 1.0
 DAY_START_HOUR = 6.0
 
-# Duty Status Categories
 OFF_DUTY = "off_duty"
 SLEEPER_BERTH = "sleeper_berth"
 DRIVING = "driving"

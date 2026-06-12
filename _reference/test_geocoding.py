@@ -1,7 +1,6 @@
 import os
 from dotenv import load_dotenv
 
-# Load .env before importing service
 load_dotenv()
 
 from trip_planner.services.geocoding import geocode_location, GeocodingError

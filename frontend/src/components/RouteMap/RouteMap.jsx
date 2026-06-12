@@ -1,11 +1,11 @@
 import React from 'react';
 import { MapContainer, TileLayer, Polyline, CircleMarker, Tooltip } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import './RouteMap.css';
+import styles from './RouteMap.module.css';
 
 const RouteMap = ({ route }) => {
   if (!route || !route.polyline || route.polyline.length === 0) {
-    return <div className="route-map-empty">No route data available</div>;
+    return <div className={styles.routeMapEmpty}>No route data available</div>;
   }
 
   const positions = route.polyline;
@@ -18,57 +18,52 @@ const RouteMap = ({ route }) => {
     (Math.min(...lngs) + Math.max(...lngs)) / 2
   ];
 
-  // Extract events for waypoints
-  const events = route.events || [];
+  const events = route.waypoints || [];
 
-  // Map event types to colors
   const getColor = (eventType) => {
-    switch(eventType) {
-      case 'PRE_TRIP': return '#006c4e'; // Green (origin)
-      case 'DROP_OFF': return '#ba1a1a'; // Red (destination)
-      case 'FUEL': return '#e6b800'; // Yellow (fuel)
-      case 'BREAK_30_MIN': 
-      case 'REST_10_HOUR': return '#004782'; // Blue (rest)
-      case 'DRIVING': return '#1960a6';
-      default: return '#727782'; // Gray
+    switch (eventType) {
+      case 'start': return '#006c4e'; 
+      case 'dropoff': return '#ba1a1a'; 
+      case 'fuel': return '#e6b800'; 
+      case 'break':
+      case 'rest': return '#004782'; 
+      case 'pickup': return '#e88c1a'; 
+      default: return '#727782'; 
     }
   };
 
   const getLabel = (eventType) => {
-    switch(eventType) {
-      case 'PRE_TRIP': return 'Start / Pre-trip';
-      case 'DROP_OFF': return 'Destination';
-      case 'FUEL': return 'Fuel Stop';
-      case 'BREAK_30_MIN': return '30-Min Break';
-      case 'REST_10_HOUR': return '10-Hour Rest';
+    switch (eventType) {
+      case 'start': return 'Start / Pre-trip';
+      case 'dropoff': return 'Destination';
+      case 'fuel': return 'Fuel Stop';
+      case 'break': return '30-Min Break';
+      case 'rest': return '10-Hour Rest';
+      case 'pickup': return 'Pickup / Load';
       default: return eventType;
     }
   };
 
-  const waypoints = events.filter(e => e.type !== 'DRIVING').map(e => {
+  const waypoints = events.map(e => {
     let lat = e.lat;
     let lng = e.lng;
     
     if (!lat || !lng) {
-      if (e.type === 'PRE_TRIP') {
+      if (e.type === 'start') {
         lat = positions[0][0];
         lng = positions[0][1];
-      } else if (e.type === 'DROP_OFF') {
+      } else if (e.type === 'dropoff') {
         lat = positions[positions.length - 1][0];
         lng = positions[positions.length - 1][1];
       }
     }
     
-    return {
-      ...e,
-      lat,
-      lng
-    };
+    return { ...e, lat, lng };
   }).filter(e => e.lat && e.lng);
 
   return (
-    <div className="route-map-wrapper">
-      <MapContainer center={center} zoom={6} scrollWheelZoom={true} style={{ height: '100%', width: '100%' }}>
+    <div className={styles.routeMapWrapper}>
+      <MapContainer center={center} zoom={6} scrollWheelZoom={true} className={styles.leafletContainer}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"

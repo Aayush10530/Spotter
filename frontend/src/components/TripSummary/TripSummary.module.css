@@ -1,14 +1,13 @@
-.trip-summary-container {
+.tripSummaryContainer {
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-lg);
   padding: 24px;
   display: flex;
   flex-direction: column;
-  
 }
 
-.trip-summary-title {
+.tripSummaryTitle {
   font-family: var(--font-body);
   font-size: 18px;
   font-weight: 500;
@@ -18,14 +17,14 @@
   margin-bottom: 16px;
 }
 
-.trip-summary-content {
+.tripSummaryContent {
   display: flex;
   flex-direction: column;
   gap: 16px;
   flex: 1;
 }
 
-.compliance-status {
+.complianceStatus {
   padding: 16px;
   border-radius: var(--border-radius-lg);
   display: flex;
@@ -33,17 +32,17 @@
   gap: 12px;
 }
 
-.compliance-status.compliant {
+.complianceStatus.compliant {
   background-color: #83f5c6; /* secondary-container */
   color: #007151; /* on-secondary-container */
 }
 
-.compliance-status.violation {
+.complianceStatus.violation {
   background-color: var(--color-error-container, #ffdad6);
   color: var(--color-on-error-container, #93000a);
 }
 
-.compliance-title {
+.complianceTitle {
   font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
@@ -51,20 +50,20 @@
   margin-bottom: 4px;
 }
 
-.compliance-list {
+.complianceList {
   margin-top: 4px;
   padding-left: 16px;
   font-size: 14px;
 }
 
-.stats-grid {
+.statsGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
   margin-top: 8px;
 }
 
-.stat-card {
+.statCard {
   background-color: var(--color-surface-container-low);
   border: 1px solid var(--color-border);
   padding: 12px;
@@ -73,14 +72,14 @@
   flex-direction: column;
 }
 
-.stat-label {
+.statLabel {
   font-size: 12px;
   font-weight: 600;
   color: var(--color-on-surface-variant);
   margin-bottom: 4px;
 }
 
-.stat-value {
+.statValue {
   font-family: var(--font-mono);
   font-size: 18px;
   color: var(--color-on-surface);

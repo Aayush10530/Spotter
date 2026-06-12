@@ -10,11 +10,9 @@ from .services.log_builder import LogSheetBuilder
 
 logger = logging.getLogger(__name__)
 
-
 class HealthView(APIView):
     def get(self, request):
         return Response({"status": "ok", "service": "SpotterAI ELD Trip Planner"})
-
 
 class TripPlanView(APIView):
     def post(self, request):
@@ -28,16 +26,14 @@ class TripPlanView(APIView):
         data = serializer.validated_data
 
         try:
-            # Step 1 — Geocoding
+            
             origin_coords  = geocode_location(data['current_location'])
             pickup_coords  = geocode_location(data['pickup_location'])
             dropoff_coords = geocode_location(data['dropoff_location'])
 
-            # Step 2 — Routing
             deadhead_route = get_route(origin_coords, pickup_coords)
             loaded_route   = get_route(pickup_coords, dropoff_coords)
 
-            # Step 3 — HOS Calculation
             trip_data = calculate_trip(
                 origin_coords,
                 pickup_coords,
@@ -47,7 +43,6 @@ class TripPlanView(APIView):
                 data.get('cycle_hours_used', 0.0)
             )
 
-            # Step 4 — Build final response
             final_response = LogSheetBuilder.build(
                 origin_coords,
                 pickup_coords,

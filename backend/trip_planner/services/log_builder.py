@@ -9,12 +9,10 @@ class LogSheetBuilder:
         trip_data: dict
     ) -> dict:
 
-        # Combine polylines
         polyline = deadhead_route['polyline'] + loaded_route['polyline']
 
         waypoints = []
 
-        # Helper: find first remark matching activity name
         def find_remark(activity_name):
             for day in trip_data['days']:
                 for remark in day['remarks']:
@@ -22,8 +20,6 @@ class LogSheetBuilder:
                         return remark['time_label'], day['day_number']
             return "6:00 AM", 1
 
-        # Helper: get approximate lat/lng for a stop
-        # We interpolate along the polyline by distance fraction
         def interpolate_coords(polyline, fraction):
             if not polyline or len(polyline) < 2:
                 return polyline[0] if polyline else [0, 0]
@@ -31,7 +27,6 @@ class LogSheetBuilder:
             idx = max(0, min(idx, len(polyline) - 1))
             return polyline[idx]
 
-        # --- Start waypoint ---
         start_time, start_day = find_remark("Pre-trip inspection")
         waypoints.append({
             'type': 'start',
@@ -44,7 +39,6 @@ class LogSheetBuilder:
             'day': start_day
         })
 
-        # --- Fuel stop and rest stop waypoints from remarks ---
         total_miles = trip_data['summary']['total_miles'] or 1
         miles_accumulated = 0.0
 
@@ -96,7 +90,6 @@ class LogSheetBuilder:
 
             miles_accumulated += day['total_miles']
 
-        # --- Pickup waypoint ---
         pickup_time, pickup_day = find_remark("Pickup / load")
         waypoints.append({
             'type': 'pickup',
@@ -109,7 +102,6 @@ class LogSheetBuilder:
             'day': pickup_day
         })
 
-        # --- Dropoff waypoint ---
         dropoff_time, dropoff_day = find_remark("Dropoff / unload")
         waypoints.append({
             'type': 'dropoff',
@@ -122,7 +114,6 @@ class LogSheetBuilder:
             'day': dropoff_day
         })
 
-        # Sort waypoints by day then time
         waypoints.sort(key=lambda w: (w['day'], w['time_label']))
 
         return {

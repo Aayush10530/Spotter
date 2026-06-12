@@ -6,18 +6,7 @@ class GeocodingError(ValueError):
     pass
 
 def geocode_location(city_name: str) -> dict:
-    """
-    Convert a location string to lat/lng coordinates.
-
-    Args:
-        city_name: Human-readable location e.g. "Chicago, IL"
-
-    Returns:
-        {"name": str, "lat": float, "lng": float}
-
-    Raises:
-        GeocodingError: If location cannot be resolved
-    """
+    
     api_key = os.getenv('ORS_API_KEY')
     if not api_key:
         raise GeocodingError("ORS_API_KEY environment variable is not set")
