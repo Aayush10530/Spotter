@@ -58,9 +58,6 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 import dj_database_url
 
-db_url = os.getenv('DATABASE_URL', f"sqlite:///{BASE_DIR / 'db.sqlite3'}")
-if 'your_postgres_username' in db_url:
-    db_url = f"sqlite:///{BASE_DIR / 'db.sqlite3'}"
 
 db_url = os.getenv('DATABASE_URL')
 DATABASES = {
