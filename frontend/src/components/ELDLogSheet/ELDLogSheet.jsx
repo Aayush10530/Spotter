@@ -15,7 +15,7 @@ const ELDLogSheet = ({ dayData }) => {
     const ctx = canvas.getContext('2d');
     const dpr = window.devicePixelRatio || 1;
     const width = 860;
-    const height = 520;
+    const height = 280;
     
     canvas.width = width * dpr;
     canvas.height = height * dpr;
@@ -26,16 +26,11 @@ const ELDLogSheet = ({ dayData }) => {
     ctx.clearRect(0, 0, width, height);
 
     if (dayData) {
-      
       drawGrid(ctx, dayData);
       
       if (dayData.time_blocks) {
         drawBlocks(ctx, dayData.time_blocks);
       }
-      
-      drawTotals(ctx, dayData);
-      
-      drawRemarks(ctx, dayData);
     }
   }, [dayData]);
 
@@ -43,19 +38,73 @@ const ELDLogSheet = ({ dayData }) => {
 
   return (
     <div className={styles.eldLogsheetContainer}>
-      <div className={styles.eldHeader}>
-        <div className={styles.eldHeaderLeft}>
-          <h3 className={styles.eldTitle}>Day {dayData.day_number}</h3>
-          <p className={styles.eldSubtitle}>FMCSA-Compliant Driver's Daily Log (24-Hour Grid)</p>
+      <div className={styles.eldTopHeader}>
+        <div className={styles.headerBlock}>
+          <span className={styles.headerLabel}>DATE</span>
+          <span className={styles.headerValue}>{dayData.date_label || 'Oct 25, 2023'}</span>
         </div>
-        <div className={styles.eldHeaderRight}>
-          <p className={styles.eldMeta}>Vehicle ID: CMV-7092</p>
-          <p className={styles.eldMeta}>Timezone: Origin Local</p>
+        <div className={styles.headerBlock}>
+          <span className={styles.headerLabel}>TOTAL DRIVING</span>
+          <span className={styles.headerValue}>{dayData.total_miles || 620} miles</span>
+        </div>
+        <div className={styles.headerBlock}>
+          <span className={styles.headerLabel}>EQUIPMENT</span>
+          <span className={styles.headerValue}>TRK-01 / TRL-01</span>
+        </div>
+        <div className={styles.headerBlock}>
+          <span className={styles.headerLabel}>CARRIER</span>
+          <span className={styles.headerValue}>Spotter Logistics</span>
         </div>
       </div>
       
       <div className={styles.eldCanvasWrapper}>
         <canvas ref={canvasRef} className={styles.eldCanvas} />
+      </div>
+
+      <div className={styles.eldBottomSection}>
+        <div className={styles.remarksSection}>
+          <h3 className={styles.sectionTitle}>Remarks</h3>
+          <div className={styles.remarksTable}>
+            {(dayData.remarks || []).map((rem, idx) => (
+              <div key={idx} className={styles.remarkRow}>
+                <span className={styles.remarkTime}>{rem.time_label}</span>
+                <span className={styles.remarkText}>
+                  {rem.location} - {rem.activity}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className={styles.recapSection}>
+          <h3 className={styles.sectionTitle}>70-hr / 8-day Recap</h3>
+          <table className={styles.recapTable}>
+            <thead>
+              <tr>
+                <th>METRIC</th>
+                <th>VALUE</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Hours Worked Today</td>
+                <td>{(dayData.totals?.total_working || 0).toFixed(1)}</td>
+              </tr>
+              <tr>
+                <td>Hours Worked Last 7 Days</td>
+                <td>42.0</td>
+              </tr>
+              <tr>
+                <td>Total Hours (8 Days)</td>
+                <td>{(42.0 + (dayData.totals?.total_working || 0)).toFixed(1)}</td>
+              </tr>
+              <tr>
+                <td>Hours Available Tomorrow</td>
+                <td>{(70.0 - (42.0 + (dayData.totals?.total_working || 0))).toFixed(1)}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

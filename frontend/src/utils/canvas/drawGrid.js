@@ -1,5 +1,5 @@
 import { 
-  GRID_LEFT, GRID_RIGHT, GRID_TOP, GRID_BOTTOM,
+  GRID_LEFT, GRID_RIGHT, GRID_WIDTH, GRID_TOP, GRID_BOTTOM,
   ROW_BOUNDARIES, STATUS_LABELS, hourToX 
 } from './timeCoords';
 
@@ -14,24 +14,7 @@ export const drawGrid = (ctx, dayData) => {
   ctx.lineWidth = 1;
   ctx.font = '11px "Plus Jakarta Sans", sans-serif';
 
-  const headerGrad = ctx.createLinearGradient(10, 10, 10, 110);
-  headerGrad.addColorStop(0, colorSurfaceLow);
-  headerGrad.addColorStop(1, colorSurfaceHigh);
-  
-  ctx.fillStyle = headerGrad;
-  ctx.fillRect(10, 10, 840, 100);
-  ctx.strokeRect(10, 10, 840, 100);
-
-  ctx.fillStyle = colorOnSurface;
-  ctx.textAlign = 'left';
-  ctx.font = 'bold 11px "Plus Jakarta Sans", sans-serif';
-  ctx.fillText(`DATE: ${dayData?.date_label || 'N/A'}`, 25, 45);
-  ctx.fillText(`TOTAL MILES: ${dayData?.total_miles || 0} mi`, 25, 80);
-  ctx.fillText(`CARRIER: SpotterAI Logistics`, 250, 45);
-  ctx.fillText(`TRACTOR #: CMV-7092`, 250, 80);
-  
-  ctx.fillText(`DRIVER SIGNATURE: _______________________`, 500, 45);
-  ctx.fillText(`CO-DRIVER: N/A`, 500, 80);
+  // Header drawing removed from Canvas - now handled in HTML
 
   ctx.fillStyle = rootStyles.getPropertyValue('--color-on-surface-variant').trim() || '#424751';
   Object.keys(ROW_BOUNDARIES).forEach((status, i) => {
@@ -55,8 +38,13 @@ export const drawGrid = (ctx, dayData) => {
     ctx.fillText(STATUS_LABELS[status], GRID_LEFT - 10, (top + bottom) / 2 + 4);
   });
 
+  // Draw background strip for time labels
+  ctx.fillStyle = rootStyles.getPropertyValue('--color-surface-container-high').trim() || '#f1efe8';
+  ctx.fillRect(GRID_LEFT, GRID_TOP - 20, GRID_WIDTH, 20);
+
+  ctx.fillStyle = colorOnSurface;
   ctx.textAlign = 'center';
-  ctx.font = '10px "Plus Jakarta Sans", sans-serif';
+  ctx.font = 'bold 10px "Plus Jakarta Sans", sans-serif';
   for (let h = 0; h <= 24; h++) {
     const x = hourToX(h);
     ctx.lineWidth = (h === 0 || h === 12 || h === 24) ? 2 : 1;

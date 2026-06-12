@@ -1,56 +1,141 @@
 .eldLogsheetContainer {
-  background-color: var(--color-surface-container-lowest);
+  background-color: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-lg);
-  padding: 24px;
+  padding: 32px;
   overflow-x: auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  max-width: 924px;
+  margin: 0 auto;
 }
 
-.eldHeader {
+.eldTopHeader {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 16px;
-  min-width: 860px;
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--color-border);
 }
 
-.eldHeaderLeft {
+.headerBlock {
   display: flex;
   flex-direction: column;
+  gap: 8px;
 }
 
-.eldTitle {
+.headerLabel {
   font-family: var(--font-body);
-  font-size: 18px;
-  font-weight: 500;
-  color: var(--color-on-surface);
-  margin-bottom: 4px;
-}
-
-.eldSubtitle {
-  font-size: 14px;
+  font-size: 11px;
+  letter-spacing: 0.05em;
   color: var(--color-on-surface-variant);
+  text-transform: uppercase;
+  font-weight: 600;
 }
 
-.eldHeaderRight {
-  display: flex;
-  flex-direction: column;
-  text-align: right;
-  gap: 4px;
-}
-
-.eldMeta {
+.headerValue {
   font-family: var(--font-mono);
-  font-size: 13px;
-  color: var(--color-on-surface-variant);
+  font-size: 14px;
+  color: var(--color-on-surface);
 }
 
 .eldCanvasWrapper {
   min-width: 860px;
   display: flex;
   justify-content: center;
+  margin-bottom: 32px;
+  position: relative;
 }
 
 .eldCanvas {
   display: block;
+}
+
+.eldBottomSection {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+}
+
+.sectionTitle {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--color-on-surface);
+  margin-bottom: 16px;
+}
+
+.remarksTable {
+  display: flex;
+  flex-direction: column;
+}
+
+.remarkRow {
+  display: flex;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.remarkRow:last-child {
+  border-bottom: none;
+}
+
+.remarkTime {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--color-primary);
+  width: 100px;
+  flex-shrink: 0;
+}
+
+.remarkText {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--color-on-surface);
+}
+
+.recapTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.recapTable th, .recapTable td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.recapTable th {
+  background-color: var(--color-surface-container-low);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 11px;
+  color: var(--color-on-surface-variant);
+  text-transform: uppercase;
+}
+
+.recapTable th:last-child,
+.recapTable td:last-child {
+  text-align: right;
+}
+
+.recapTable td:first-child {
+  color: var(--color-on-surface-variant);
+}
+
+.recapTable td:last-child {
+  color: var(--color-on-surface);
+  font-weight: 500;
+}
+
+.recapTable tr:last-child td {
+  border-bottom: none;
+}
+
+.recapTable tr:last-child {
+  background-color: var(--color-surface-container-lowest);
 }

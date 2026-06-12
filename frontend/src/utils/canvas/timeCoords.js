@@ -5,15 +5,15 @@ export const GRID_LEFT = 80;
 export const GRID_RIGHT = 820;
 export const GRID_WIDTH = 740;
 
-export const GRID_TOP = 120;
-export const GRID_BOTTOM = 360;
+export const GRID_TOP = 20;
+export const GRID_BOTTOM = 260;
 export const GRID_HEIGHT = 240;
 
 export const ROW_BOUNDARIES = {
-  off_duty: { top: 140, bottom: 175, center: 157.5 },
-  sleeper_berth: { top: 195, bottom: 230, center: 212.5 },
-  driving: { top: 250, bottom: 285, center: 267.5 },
-  on_duty_nd: { top: 305, bottom: 340, center: 322.5 }
+  off_duty: { top: 40, bottom: 75, center: 57.5 },
+  sleeper_berth: { top: 95, bottom: 130, center: 112.5 },
+  driving: { top: 150, bottom: 185, center: 167.5 },
+  on_duty_nd: { top: 205, bottom: 240, center: 222.5 }
 };
 
 export const STATUS_COLORS = {
