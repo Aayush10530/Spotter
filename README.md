@@ -253,7 +253,7 @@ The client app will launch at `http://localhost:3000/`.
 This project is configured to run fully on Vercel using serverless functions for the backend and a standard web build for the frontend.
 
 ### Deploying the Backend
-Vercel executes the Django backend using `@vercel/python` and routes requests through `wsgi.py`.
+Vercel automatically detects and runs the Django backend using its native Zero-Configuration Python builder.
 
 1. Go to the Vercel Dashboard, select **Add New Project**, and link your GitHub repository.
 2. Set the **Root Directory** to `backend`.
@@ -263,7 +263,7 @@ Vercel executes the Django backend using `@vercel/python` and routes requests th
    - `ORS_API_KEY` (OpenRouteService key)
    - `CORS_ALLOWED_ORIGINS` (Your Vercel frontend URL, e.g., `https://spotter-a.vercel.app`)
    - `ALLOWED_HOSTS` (Set to `your-backend.vercel.app`)
-4. Vercel will build and deploy the backend automatically using the configuration in `vercel.json`.
+4. Click **Deploy**. Vercel will automatically build the environment, run `collectstatic`, and host your application with CDN-backed static assets.
 
 ### Deploying the Frontend
 1. Select **Add New Project** on Vercel and link the same repository.
@@ -292,8 +292,6 @@ Spotter/
 │   │   ├── models.py          # PostgreSQL models
 │   │   ├── serializers.py     # JWT & trip data serializers
 │   │   └── views.py           # REST views (plan-trip, trips, auth)
-│   ├── vercel.json            # Vercel deployment configurations
-│   ├── build_files.sh         # Vercel serverless builder
 │   └── requirements.txt
 ├── frontend/
 │   ├── public/
