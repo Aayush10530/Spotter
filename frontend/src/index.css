@@ -23,6 +23,11 @@
   --color-outline-variant: #c2c6d2;
   --color-border: rgba(0, 0, 0, 0.12);
   
+  /* Glassmorphism */
+  --glass-bg: rgba(252, 249, 241, 0.85);
+  --glass-border: rgba(0, 0, 0, 0.05);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  
   /* Background Level 0 */
   --bg-level-0: #F8F7F5;
 
@@ -63,6 +68,11 @@ body.dark-theme {
   --color-outline: #8c9099;
   --color-outline-variant: #44474f;
   --color-border: rgba(255, 255, 255, 0.12);
+  
+  /* Glassmorphism */
+  --glass-bg: rgba(28, 28, 23, 0.75);
+  --glass-border: rgba(255, 255, 255, 0.05);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   
   --bg-level-0: #141411;
 }
