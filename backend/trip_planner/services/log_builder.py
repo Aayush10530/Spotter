@@ -1,15 +1,28 @@
 class LogSheetBuilder:
     @staticmethod
-    def build(
-        origin_coords: dict,
-        pickup_coords: dict,
-        dropoff_coords: dict,
-        deadhead_route: dict,
-        loaded_route: dict,
-        trip_data: dict
-    ) -> dict:
+    def build(*args, **kwargs) -> dict:
+        if len(args) > 0 and isinstance(args[0], list):
+            stops_coords = args[0]
+            legs = args[1]
+            trip_data = args[2]
+        else:
+            origin_coords = args[0] if len(args) > 0 else kwargs['origin_coords']
+            pickup_coords = args[1] if len(args) > 1 else kwargs['pickup_coords']
+            dropoff_coords = args[2] if len(args) > 2 else kwargs['dropoff_coords']
+            deadhead_route = args[3] if len(args) > 3 else kwargs['deadhead_route']
+            loaded_route = args[4] if len(args) > 4 else kwargs['loaded_route']
+            trip_data = args[5] if len(args) > 5 else kwargs['trip_data']
+            
+            stops_coords = [origin_coords, pickup_coords, dropoff_coords]
+            legs = [deadhead_route, loaded_route]
 
-        polyline = deadhead_route['polyline'] + loaded_route['polyline']
+        origin_coords = stops_coords[0]
+        pickup_coords = stops_coords[1]
+        dropoff_coords = stops_coords[-1]
+
+        polyline = []
+        for leg in legs:
+            polyline.extend(leg['polyline'])
 
         waypoints = []
 
@@ -101,6 +114,20 @@ class LogSheetBuilder:
             'duration': '1 hr',
             'day': pickup_day
         })
+
+        for idx in range(2, len(stops_coords) - 1):
+            activity_name = f"Stop {idx-1} / load"
+            stop_time, stop_day = find_remark(activity_name)
+            waypoints.append({
+                'type': 'pickup',
+                'name': stops_coords[idx]['name'],
+                'lat': stops_coords[idx]['lat'],
+                'lng': stops_coords[idx]['lng'],
+                'time_label': stop_time,
+                'activity': activity_name,
+                'duration': '1 hr',
+                'day': stop_day
+            })
 
         dropoff_time, dropoff_day = find_remark("Dropoff / unload")
         waypoints.append({

@@ -10,7 +10,6 @@ const RouteMap = ({ route, theme }) => {
 
   const positions = route.polyline;
   
-  // Calculate center of map
   const lats = positions.map(p => p[0]);
   const lngs = positions.map(p => p[1]);
   const center = [
@@ -87,7 +86,7 @@ const RouteMap = ({ route, theme }) => {
             }} 
             radius={8}
           >
-            <Tooltip>{getLabel(wp.type)} {wp.distance_miles ? `(${Math.round(wp.distance_miles)} mi)` : ''}</Tooltip>
+            <Tooltip>{wp.activity || getLabel(wp.type)} {wp.distance_miles ? `(${Math.round(wp.distance_miles)} mi)` : ''}</Tooltip>
           </CircleMarker>
         ))}
       </MapContainer>

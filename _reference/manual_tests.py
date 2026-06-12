@@ -151,6 +151,23 @@ assert 'summary' in response.data
 assert 'days' in response.data
 assert 'route' in response.data
 print("  [PASS] POST /api/v1/plan-trip/ -> 200 OK with correct schema")
+
+data_multistop = {
+    'current_location': 'Chicago, IL',
+    'pickup_location': 'Dallas, TX',
+    'stops': ['Houston, TX', 'New Orleans, LA'],
+    'dropoff_location': 'Atlanta, GA',
+    'cycle_hours_used': 10.0
+}
+request = factory.post('/api/v1/plan-trip/', data_multistop, format='json')
+response = view(request)
+assert response.status_code == 200, f"Expected 200, got {response.status_code}: {response.data}"
+assert 'summary' in response.data
+assert 'days' in response.data
+assert 'route' in response.data
+waypoints = response.data['route']['waypoints']
+assert len(waypoints) >= 5
+print("  [PASS] POST /api/v1/plan-trip/ with multi-stops -> 200 OK")
 print("  PHASE 8 PASSED\n")
 
 print("=== ALL ACTIVE TESTS PASSED ===\n")

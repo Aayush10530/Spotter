@@ -145,3 +145,76 @@
 .animateSpin {
   animation: spin 1s linear infinite;
 }
+
+.stopsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.addStopButton {
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: 1px dashed var(--color-border);
+  border-radius: var(--border-radius);
+  color: var(--color-primary);
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 4px;
+  margin-bottom: 8px;
+}
+
+.addStopButton:hover {
+  background-color: var(--color-surface-variant);
+  border-color: var(--color-primary);
+}
+
+.removeStopButton {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  color: var(--color-outline);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  z-index: 2;
+  transition: color 0.2s ease;
+}
+
+.removeStopButton:hover {
+  color: var(--color-error);
+}
+
+.formInputStop {
+  width: 100%;
+  height: var(--input-height);
+  padding: 0 40px 0 40px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  color: var(--color-on-surface);
+  font-size: 14px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
+}
+
+.formInputStop:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 1px var(--color-primary);
+}
+
+.formInputStop:focus + .inputIcon {
+  color: var(--color-primary);
+}
+
+.iconStop {
+  color: var(--color-outline);
+}

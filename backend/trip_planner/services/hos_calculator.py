@@ -196,26 +196,47 @@ class HOSSimulator:
             self.finish_day()
 
 def calculate_trip(
-    origin_coords: dict,
-    pickup_coords: dict,
-    dropoff_coords: dict,
-    deadhead_route: dict,
-    loaded_route: dict,
-    cycle_hours_used: float = 0.0
+    *args,
+    **kwargs
 ) -> dict:
+    if len(args) > 0 and isinstance(args[0], list):
+        stops_coords = args[0]
+        legs = args[1]
+        cycle_hours_used = args[2] if len(args) > 2 else kwargs.get('cycle_hours_used', 0.0)
+    else:
+        origin_coords = args[0] if len(args) > 0 else kwargs['origin_coords']
+        pickup_coords = args[1] if len(args) > 1 else kwargs['pickup_coords']
+        dropoff_coords = args[2] if len(args) > 2 else kwargs['dropoff_coords']
+        deadhead_route = args[3] if len(args) > 3 else kwargs['deadhead_route']
+        loaded_route = args[4] if len(args) > 4 else kwargs['loaded_route']
+        cycle_hours_used = args[5] if len(args) > 5 else kwargs.get('cycle_hours_used', 0.0)
+        
+        stops_coords = [origin_coords, pickup_coords, dropoff_coords]
+        legs = [deadhead_route, loaded_route]
+
+    origin_coords = stops_coords[0]
     sim = HOSSimulator(cycle_hours_used, origin_coords['name'])
     
     sim.add_block(ON_DUTY_ND, PRE_TRIP_DURATION_HOURS, origin_coords['name'], "Pre-trip inspection", "Pre-trip inspection")
     
-    sim.drive_leg(deadhead_route['distance_miles'], deadhead_route['duration_hours'], origin_coords['name'])
-    
-    sim.add_block(ON_DUTY_ND, PICKUP_DURATION_HOURS, pickup_coords['name'], "Pickup / load", "Pickup / load")
-    
-    sim.drive_leg(loaded_route['distance_miles'], loaded_route['duration_hours'], pickup_coords['name'])
-    
-    sim.add_block(ON_DUTY_ND, DROPOFF_DURATION_HOURS, dropoff_coords['name'], "Dropoff / unload", "Dropoff / unload")
-    
-    sim.end_trip(dropoff_coords['name'])
+    for i, leg in enumerate(legs):
+        start_stop = stops_coords[i]
+        end_stop = stops_coords[i+1]
+        
+        sim.drive_leg(leg['distance_miles'], leg['duration_hours'], start_stop['name'])
+        
+        if i < len(legs) - 1:
+            if i == 0:
+                activity = "Pickup / load"
+                duration = PICKUP_DURATION_HOURS
+            else:
+                activity = f"Stop {i} / load"
+                duration = PICKUP_DURATION_HOURS
+            sim.add_block(ON_DUTY_ND, duration, end_stop['name'], activity, activity)
+            
+    final_stop = stops_coords[-1]
+    sim.add_block(ON_DUTY_ND, DROPOFF_DURATION_HOURS, final_stop['name'], "Dropoff / unload", "Dropoff / unload")
+    sim.end_trip(final_stop['name'])
     
     return {
         "summary": {

@@ -26,29 +26,31 @@ class TripPlanView(APIView):
         data = serializer.validated_data
 
         try:
-            
             origin_coords  = geocode_location(data['current_location'])
             pickup_coords  = geocode_location(data['pickup_location'])
+            
+            stops_coords = []
+            for stop in data.get('stops', []):
+                if stop.strip():
+                    stops_coords.append(geocode_location(stop))
+                    
             dropoff_coords = geocode_location(data['dropoff_location'])
 
-            deadhead_route = get_route(origin_coords, pickup_coords)
-            loaded_route   = get_route(pickup_coords, dropoff_coords)
+            all_stops = [origin_coords, pickup_coords] + stops_coords + [dropoff_coords]
+            
+            legs = []
+            for i in range(len(all_stops) - 1):
+                legs.append(get_route(all_stops[i], all_stops[i+1]))
 
             trip_data = calculate_trip(
-                origin_coords,
-                pickup_coords,
-                dropoff_coords,
-                deadhead_route,
-                loaded_route,
+                all_stops,
+                legs,
                 data.get('cycle_hours_used', 0.0)
             )
 
             final_response = LogSheetBuilder.build(
-                origin_coords,
-                pickup_coords,
-                dropoff_coords,
-                deadhead_route,
-                loaded_route,
+                all_stops,
+                legs,
                 trip_data
             )
 

@@ -15,22 +15,65 @@ const TripForm = ({ onPlanTrip, isLoading }) => {
     dropoff_location: '',
     current_cycle_used: '',
   });
+  const [stops, setStops] = useState([]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleStopChange = (index, value) => {
+    setStops((prev) => {
+      const next = [...prev];
+      next[index] = value;
+      return next;
+    });
+  };
+
+  const addStop = () => setStops((prev) => [...prev, '']);
+  const removeStop = (index) => setStops((prev) => prev.filter((_, i) => i !== index));
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (isLoading) return;
-    
     onPlanTrip({
       current_location: formData.current_location,
       pickup_location: formData.pickup_location,
+      stops: stops.filter((s) => s.trim() !== ''),
       dropoff_location: formData.dropoff_location,
       cycle_hours_used: parseFloat(formData.current_cycle_used || 0)
     });
+  };
+
+  const renderField = (field) => {
+    let iconClass = styles.inputIcon;
+    if (field.iconStyle === 'pickup') iconClass += ` ${styles.iconPickup}`;
+    if (field.iconStyle === 'dropoff') iconClass += ` ${styles.iconDropoff}`;
+    let inputClass = styles.formInput;
+    if (field.mono) inputClass += ` ${styles.fontMono}`;
+
+    return (
+      <div key={field.name} className={styles.formGroup}>
+        <label className={styles.formLabel}>{field.label}</label>
+        <div className={styles.inputWrapper}>
+          <span className={`material-symbols-outlined ${iconClass}`}>
+            {field.icon}
+          </span>
+          <input
+            required
+            name={field.name}
+            value={formData[field.name]}
+            onChange={handleChange}
+            className={inputClass}
+            placeholder={field.placeholder}
+            type={field.type || 'text'}
+            step={field.step}
+            min={field.min}
+            max={field.max}
+          />
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -42,35 +85,44 @@ const TripForm = ({ onPlanTrip, isLoading }) => {
 
       <form onSubmit={handleSubmit} className={styles.tripForm}>
         {FIELDS.map((field) => {
-          let iconClass = styles.inputIcon;
-          if (field.iconStyle === 'pickup') iconClass += ` ${styles.iconPickup}`;
-          if (field.iconStyle === 'dropoff') iconClass += ` ${styles.iconDropoff}`;
-
-          let inputClass = styles.formInput;
-          if (field.mono) inputClass += ` ${styles.fontMono}`;
-
-          return (
-            <div key={field.name} className={styles.formGroup}>
-              <label className={styles.formLabel}>{field.label}</label>
-              <div className={styles.inputWrapper}>
-                <span className={`material-symbols-outlined ${iconClass}`}>
-                  {field.icon}
-                </span>
-                <input
-                  required
-                  name={field.name}
-                  value={formData[field.name]}
-                  onChange={handleChange}
-                  className={inputClass}
-                  placeholder={field.placeholder}
-                  type={field.type || 'text'}
-                  step={field.step}
-                  min={field.min}
-                  max={field.max}
-                />
-              </div>
-            </div>
-          );
+          if (field.name === 'dropoff_location') {
+            return (
+              <React.Fragment key={field.name}>
+                <div className={styles.stopsContainer}>
+                  {stops.map((stop, index) => (
+                    <div key={index} className={styles.formGroup}>
+                      <label className={styles.formLabel}>Stop {index + 1}</label>
+                      <div className={styles.inputWrapper}>
+                        <span className={`material-symbols-outlined ${styles.inputIcon} ${styles.iconStop}`}>
+                          location_on
+                        </span>
+                        <input
+                          required
+                          value={stop}
+                          onChange={(e) => handleStopChange(index, e.target.value)}
+                          className={styles.formInputStop}
+                          placeholder="City, State or ZIP"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => removeStop(index)}
+                          className={styles.removeStopButton}
+                        >
+                          <span className="material-symbols-outlined">close</span>
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                  <button type="button" onClick={addStop} className={styles.addStopButton}>
+                    <span className="material-symbols-outlined">add</span>
+                    Add Stop
+                  </button>
+                </div>
+                {renderField(field)}
+              </React.Fragment>
+            );
+          }
+          return renderField(field);
         })}
 
         <button type="submit" disabled={isLoading} className={styles.submitButton}>
