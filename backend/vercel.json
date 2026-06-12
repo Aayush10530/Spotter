@@ -6,12 +6,19 @@
             "config": {
                 "maxLambdaSize": "15mb"
             }
+        },
+        {
+            "src": "build_files.sh",
+            "use": "@vercel/static-build",
+            "config": {
+                "distDir": "staticfiles"
+            }
         }
     ],
     "routes": [
         {
             "src": "/static/(.*)",
-            "dest": "/staticfiles/$1"
+            "dest": "/static/$1"
         },
         {
             "src": "/(.*)",
