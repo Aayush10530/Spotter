@@ -59,14 +59,18 @@ WSGI_APPLICATION = 'core.wsgi.application'
 import dj_database_url
 
 
-db_url = os.getenv('DATABASE_URL')
+db_url = os.getenv('DATABASE_URL', f"sqlite:///{BASE_DIR / 'db.sqlite3'}")
+ssl_require = False if not db_url or 'localhost' in db_url or '127.0.0.1' in db_url or 'sqlite' in db_url else True
+
 DATABASES = {
     'default': dj_database_url.config(
         default=db_url,
         conn_max_age=0,
-        ssl_require=False
+        ssl_require=ssl_require
     )
 }
+if 'OPTIONS' in DATABASES['default']:
+    DATABASES['default']['OPTIONS'].pop('pgbouncer', None)
 
 
 AUTH_PASSWORD_VALIDATORS = [
