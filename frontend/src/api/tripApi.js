@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000/api';
+const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000/api/';
 
 const api = axios.create({
   baseURL: BASE_URL,
@@ -11,7 +11,7 @@ const api = axios.create({
 
 export const planTrip = async (tripData) => {
   try {
-    const response = await api.post('/plan-trip/', tripData);
+    const response = await api.post('plan-trip/', tripData);
     return response.data;
   } catch (error) {
     if (error.response) {
