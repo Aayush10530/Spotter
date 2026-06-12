@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Polyline, CircleMarker, Tooltip } from 'react-
 import 'leaflet/dist/leaflet.css';
 import styles from './RouteMap.module.css';
 
-const RouteMap = ({ route }) => {
+const RouteMap = ({ route, theme }) => {
   if (!route || !route.polyline || route.polyline.length === 0) {
     return <div className={styles.routeMapEmpty}>No route data available</div>;
   }
@@ -61,12 +61,16 @@ const RouteMap = ({ route }) => {
     return { ...e, lat, lng };
   }).filter(e => e.lat && e.lng);
 
+  const mapUrl = theme === 'dark'
+    ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+    : "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png";
+
   return (
     <div className={styles.routeMapWrapper}>
       <MapContainer center={center} zoom={6} scrollWheelZoom={true} className={styles.leafletContainer}>
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+          url={mapUrl}
         />
         
         <Polyline positions={positions} pathOptions={{ color: '#004782', weight: 4 }} />

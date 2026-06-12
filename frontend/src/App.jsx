@@ -85,8 +85,11 @@ function TripPlanner() {
 
           {!isLoading && tripResult && (
             <div className="results-container">
-              <div className="map-section">
-                <RouteMap route={tripResult.route} />
+              <div className="map-section" style={{ height: '350px', minHeight: '350px' }}>
+                <RouteMap 
+                  route={tripResult.route_geometry || tripResult.route}
+                  theme={theme}
+                />
               </div>
 
               <div className="logs-section">
