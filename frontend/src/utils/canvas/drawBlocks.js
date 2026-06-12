@@ -11,7 +11,16 @@ export const drawBlocks = (ctx, timeBlocks) => {
 
     ctx.beginPath();
     ctx.lineWidth = 3.5;
-    ctx.strokeStyle = STATUS_COLORS[statusKey] || '#727782';
+    
+    // Fallback to static colors if CSS variable is not found
+    const rootStyles = getComputedStyle(document.body);
+    const cssVarName = `--color-${statusKey.replace(/_/g, '-')}`;
+    let strokeColor = rootStyles.getPropertyValue(cssVarName).trim();
+    if (!strokeColor) {
+      if (statusKey === 'on_duty_nd') strokeColor = rootStyles.getPropertyValue('--color-on-duty').trim();
+    }
+    
+    ctx.strokeStyle = strokeColor || STATUS_COLORS[statusKey] || '#727782';
     ctx.moveTo(x1, y);
     ctx.lineTo(x2, y);
     ctx.stroke();

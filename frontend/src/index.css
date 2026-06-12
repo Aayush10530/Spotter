@@ -1,23 +1,29 @@
 :root {
-  /* Colors */
-  --color-primary: #004782;
-  --color-primary-container: #185fa5;
-  --color-on-primary: #ffffff;
-  --color-on-primary-container: #c1d9ff;
+  /* Modern HSL Color Palette */
+  --color-primary: hsl(210, 100%, 40%);
+  --color-primary-container: hsl(210, 80%, 25%);
+  --color-on-primary: hsl(0, 0%, 100%);
+  --color-on-primary-container: hsl(210, 100%, 90%);
   
-  --color-secondary: #006c4e;
-  --color-error: #ba1a1a;
+  --color-secondary: hsl(45, 100%, 45%); /* Gold accent */
+  --color-error: hsl(0, 85%, 45%);
   
-  --color-background: #fcf9f1;
-  --color-on-background: #1c1c17;
+  /* HOS Specific Colors */
+  --color-off-duty: hsl(210, 15%, 55%);
+  --color-sleeper: hsl(210, 75%, 60%);
+  --color-driving: hsl(150, 70%, 40%);
+  --color-on-duty: hsl(15, 85%, 55%);
   
-  --color-surface: #fcf9f1;
-  --color-on-surface: #1c1c17;
-  --color-on-surface-variant: #424751;
-  --color-surface-container: #f0eee5;
-  --color-surface-container-high: #eae8e0;
-  --color-surface-container-lowest: #ffffff;
-  --color-surface-container-low: #f6f4eb;
+  --color-background: hsl(45, 20%, 98%);
+  --color-on-background: hsl(60, 5%, 10%);
+  
+  --color-surface: hsl(45, 20%, 98%);
+  --color-on-surface: hsl(60, 5%, 10%);
+  --color-on-surface-variant: hsl(220, 10%, 30%);
+  --color-surface-container: hsl(45, 15%, 94%);
+  --color-surface-container-high: hsl(45, 15%, 90%);
+  --color-surface-container-lowest: hsl(0, 0%, 100%);
+  --color-surface-container-low: hsl(45, 15%, 96%);
   
   --color-outline: #727782;
   --color-outline-variant: #c2c6d2;
@@ -46,24 +52,30 @@
 }
 
 body.dark-theme {
-  --color-primary: #a3c9ff;
-  --color-primary-container: #004782;
-  --color-on-primary: #00315e;
-  --color-on-primary-container: #d2e4ff;
+  --color-primary: hsl(210, 100%, 70%);
+  --color-primary-container: hsl(210, 100%, 25%);
+  --color-on-primary: hsl(210, 100%, 15%);
+  --color-on-primary-container: hsl(210, 100%, 90%);
   
-  --color-secondary: #4ade80;
-  --color-error: #ffb4ab;
+  --color-secondary: hsl(45, 100%, 60%);
+  --color-error: hsl(0, 85%, 70%);
+
+  /* HOS Specific Colors */
+  --color-off-duty: hsl(210, 15%, 45%);
+  --color-sleeper: hsl(210, 80%, 55%);
+  --color-driving: hsl(150, 70%, 50%);
+  --color-on-duty: hsl(15, 85%, 65%);
   
-  --color-background: #1c1c17;
-  --color-on-background: #e6e2d9;
+  --color-background: hsl(60, 5%, 10%);
+  --color-on-background: hsl(45, 20%, 90%);
   
-  --color-surface: #1c1c17;
-  --color-on-surface: #e6e2d9;
-  --color-on-surface-variant: #c4c7d0;
-  --color-surface-container: #32302a;
-  --color-surface-container-high: #2b2924;
-  --color-surface-container-lowest: #0f0f0c;
-  --color-surface-container-low: #1c1c17;
+  --color-surface: hsl(60, 5%, 10%);
+  --color-on-surface: hsl(45, 20%, 90%);
+  --color-on-surface-variant: hsl(220, 10%, 80%);
+  --color-surface-container: hsl(60, 5%, 18%);
+  --color-surface-container-high: hsl(60, 5%, 15%);
+  --color-surface-container-lowest: hsl(60, 5%, 5%);
+  --color-surface-container-low: hsl(60, 5%, 10%);
   
   --color-outline: #8c9099;
   --color-outline-variant: #44474f;
